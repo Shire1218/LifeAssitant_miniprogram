@@ -1,0 +1,6 @@
+# static 目录说明
+
+此目录用于存放小程序的静态资源文件（图片、图标等）。
+
+当前 TabBar 使用纯文字模式，如需添加图标，可在此目录放置图标文件，
+然后在 app.json 的 tabBar.list 中配置 iconPath 和 selectedIconPath。

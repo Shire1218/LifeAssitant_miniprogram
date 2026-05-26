@@ -1,0 +1,102 @@
+<view class="page-bg">
+  <view class="container">
+    <view class="header-card">
+      <view class="header-top flex-between">
+        <text class="header-title">饮食记录</text>
+        <picker mode="date" value="{{selectedDate}}" start="2020-01-01" end="2099-12-31" bindchange="changeDate">
+          <view class="date-picker flex-row">
+            <text class="date-text">{{selectedDate}}</text>
+            <text class="date-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="meal-tabs">
+      <view wx:for="{{mealTypes}}" wx:key="key"
+            class="meal-tab {{activeMealTab === item.key ? 'active' : ''}}"
+            bindtap="switchMealTab" data-meal="{{item.key}}">
+        <text class="meal-emoji">{{item.emoji}}</text>
+        <text class="meal-name">{{item.label}}</text>
+      </view>
+    </view>
+
+    <view class="diet-list">
+      <view wx:if="{{currentMeals.length === 0}}" class="empty-meal">
+        <text class="empty-meal-emoji">{{currentMealType.emoji}}</text>
+        <text class="empty-meal-text">{{currentMealType.label}}暂无记录</text>
+      </view>
+
+      <view wx:for="{{currentMeals}}" wx:for-item="diet" wx:key="id" class="diet-card">
+        <view class="diet-card-header flex-between">
+          <text class="diet-text">{{diet.detail}}</text>
+          <view class="diet-delete-btn" catchtap="deleteDiet" data-diet="{{diet}}">
+            <text>✕</text>
+          </view>
+        </view>
+        <view wx:if="{{diet.images.length > 0}}" class="diet-images">
+          <image wx:for="{{diet.images}}" wx:for-item="img" wx:key="*this"
+                 src="{{img}}" mode="aspectFill" class="diet-img"
+                 bindtap="previewImage" data-url="{{img}}">
+          </image>
+        </view>
+      </view>
+    </view>
+
+    <view class="action-bar flex-row">
+      <view class="action-btn action-record" bindtap="openAddModal">
+        <text class="action-icon">✏️</text>
+        <text class="action-label">记录饮食</text>
+      </view>
+      <view class="action-btn action-quick" bindtap="goToQuickMeal">
+        <text class="action-icon">⚡</text>
+        <text class="action-label">快捷点餐</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{showAddModal}}" class="modal-mask" bindtap="closeAddModal">
+    <view class="modal-sheet" catchtap="onModalTap" catchtouchmove="preventMove">
+      <view class="modal-handle"></view>
+      <view class="modal-title-bar flex-between">
+        <text class="modal-title">记录饮食</text>
+        <view class="modal-close-btn" bindtap="closeAddModal">
+          <text>✕</text>
+        </view>
+      </view>
+
+      <view class="modal-scroll">
+        <view class="meal-type-grid">
+          <view wx:for="{{mealTypes}}" wx:key="key"
+                class="meal-type-card {{form.mealType === item.key ? 'active' : ''}}"
+                bindtap="changeMealTypeForm" data-meal="{{item.key}}">
+            <text class="meal-type-emoji">{{item.emoji}}</text>
+            <text class="meal-type-label">{{item.label}}</text>
+          </view>
+        </view>
+
+        <view class="form-group">
+          <text class="form-label">饮食详情</text>
+          <textarea class="form-textarea" placeholder="描述你吃了什么..." value="{{form.detail}}" bindinput="inputDetail" maxlength="500" />
+        </view>
+
+        <view class="form-group">
+          <text class="form-label">图片（可选）</text>
+          <view class="image-upload-area">
+            <view wx:for="{{form.images}}" wx:key="*this" class="uploaded-image">
+              <image src="{{item}}" mode="aspectFill" />
+              <view class="image-delete" catchtap="deleteImage" data-index="{{index}}">✕</view>
+            </view>
+            <view wx:if="{{form.images.length < 9}}" class="upload-btn" bindtap="chooseImage">
+              <text>+</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="modal-footer">
+        <view class="submit-btn" bindtap="saveDiet">保存记录</view>
+      </view>
+    </view>
+  </view>
+</view>

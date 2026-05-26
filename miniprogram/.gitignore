@@ -1,0 +1,30 @@
+# 依赖和构建产物
+node_modules/
+dist/
+build/
+
+# 微信开发者工具生成
+miniprogram_npm/
+.wxpackage/
+
+# 配置文件
+project.config.json
+project.private.config.json
+
+# 缓存文件
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.swo
+*~
+
+# 微信开发者工具缓存
+.hbuilderx/
+.idea/
+.vscode/
+
+# 临时文件
+*.bak
+*.cache

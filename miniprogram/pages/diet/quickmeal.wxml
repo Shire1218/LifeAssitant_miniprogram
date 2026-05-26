@@ -1,0 +1,78 @@
+<view class="page-bg">
+  <view class="container">
+    <view class="page-header flex-between">
+      <view class="back-btn" bindtap="goBack">
+        <text>‹ 返回</text>
+      </view>
+      <text class="page-title">快捷点餐</text>
+      <view class="add-btn" bindtap="openAddModal">
+        <text>+</text>
+      </view>
+    </view>
+
+    <view class="meal-tabs">
+      <view wx:for="{{mealTypes}}" wx:key="key"
+            class="meal-tab {{activeMealTab === item.key ? 'active' : ''}}"
+            bindtap="switchMealTab" data-meal="{{item.key}}">
+        <text class="meal-emoji">{{item.emoji}}</text>
+        <text class="meal-name">{{item.label}}</text>
+      </view>
+    </view>
+
+    <view class="meal-list">
+      <view wx:if="{{getCurrentMeals().length === 0}}" class="empty-meal">
+        <text class="empty-meal-emoji">🍽️</text>
+        <text class="empty-meal-text">暂无点餐项目</text>
+        <text class="empty-meal-desc">点击 + 添加自定义项目</text>
+      </view>
+
+      <view wx:for="{{getCurrentMeals()}}" wx:key="id" class="meal-card flex-between">
+        <view class="meal-info" bindtap="selectMeal" data-item="{{item}}">
+          <text class="meal-name-text">{{item.name}}</text>
+          <view class="meal-tag tag-primary">{{item.category}}</view>
+        </view>
+        <view class="meal-actions">
+          <view class="meal-action-btn edit-btn" catchtap="openEditModal" data-item="{{item}}">
+            <text>编辑</text>
+          </view>
+          <view class="meal-action-btn delete-btn" catchtap="deleteItem" data-item="{{item}}">
+            <text>删除</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{showEditModal}}" class="modal-mask" bindtap="closeEditModal">
+    <view class="modal-sheet" catchtap="onModalTap" catchtouchmove="preventMove">
+      <view class="modal-handle"></view>
+      <view class="modal-title-bar flex-between">
+        <text class="modal-title">{{editingItem ? '编辑项目' : '新增项目'}}</text>
+        <view class="modal-close-btn" bindtap="closeEditModal">
+          <text>✕</text>
+        </view>
+      </view>
+
+      <view class="modal-scroll">
+        <view class="form-group">
+          <text class="form-label">名称</text>
+          <input class="form-input" placeholder="输入名称" value="{{form.name}}" bindinput="inputName" />
+        </view>
+
+        <view class="form-group">
+          <text class="form-label">分类</text>
+          <input class="form-input" placeholder="输入分类" value="{{form.category}}" bindinput="inputCategory" />
+        </view>
+
+        <view class="form-group">
+          <text class="form-label">价格（可选）</text>
+          <input class="form-input" type="digit" placeholder="输入价格" value="{{form.price}}" bindinput="inputPrice" />
+        </view>
+      </view>
+
+      <view class="modal-footer">
+        <view class="submit-btn" bindtap="saveItem">{{editingItem ? '保存修改' : '添加项目'}}</view>
+      </view>
+    </view>
+  </view>
+</view>

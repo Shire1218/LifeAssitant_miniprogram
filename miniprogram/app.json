@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/bill/bill",
+    "pages/schedule/schedule",
+    "pages/diet/diet",
+    "pages/diet/quickmeal",
+    "pages/note/note",
+    "pages/note/detail"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#1677ff",
+    "navigationBarTitleText": "生活助手",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1677ff",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/bill/bill",
+        "text": "记账"
+      },
+      {
+        "pagePath": "pages/schedule/schedule",
+        "text": "日程"
+      },
+      {
+        "pagePath": "pages/diet/diet",
+        "text": "饮食"
+      },
+      {
+        "pagePath": "pages/note/note",
+        "text": "随笔"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
