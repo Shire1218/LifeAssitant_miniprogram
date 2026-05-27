@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/bill/bill",
+    "pages/stat/stat",
     "pages/schedule/schedule",
     "pages/diet/diet",
     "pages/diet/quickmeal",
@@ -15,6 +16,7 @@
     "backgroundTextStyle": "dark"
   },
   "tabBar": {
+    "custom": true,
     "color": "#999999",
     "selectedColor": "#1677ff",
     "backgroundColor": "#ffffff",
@@ -22,7 +24,11 @@
     "list": [
       {
         "pagePath": "pages/bill/bill",
-        "text": "记账"
+        "text": "账本"
+      },
+      {
+        "pagePath": "pages/stat/stat",
+        "text": "统计"
       },
       {
         "pagePath": "pages/schedule/schedule",

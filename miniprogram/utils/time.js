@@ -47,6 +47,17 @@ const getDaysInMonth = (year, month) => {
   return new Date(year, month, 0).getDate()
 }
 
+const getYearRange = (date) => {
+  const year = date.getFullYear()
+  const firstDay = new Date(year, 0, 1)
+  const lastDay = new Date(year, 11, 31)
+  return {
+    firstDay: formatDate(firstDay),
+    lastDay: formatDate(lastDay),
+    year
+  }
+}
+
 const getFirstDayOfWeek = (date) => {
   const day = date.getDay()
   const diff = date.getDate() - day
@@ -78,6 +89,7 @@ module.exports = {
   formatNumber,
   formatMoney,
   getMonthRange,
+  getYearRange,
   getToday,
   getDaysInMonth,
   getFirstDayOfWeek,

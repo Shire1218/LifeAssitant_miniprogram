@@ -2,23 +2,44 @@
   <view class="container">
     <view class="summary-card">
       <view class="summary-header flex-between">
-        <text class="summary-month">{{currentMonth}}</text>
+        <view class="summary-type-switch">
+          <view class="type-btn {{summaryType === 'month' ? 'active' : ''}}" bindtap="switchSummaryType" data-type="month">月</view>
+          <view class="type-btn {{summaryType === 'year' ? 'active' : ''}}" bindtap="switchSummaryType" data-type="year">年</view>
+        </view>
         <view class="batch-toggle" bindtap="toggleBatchMode">
           <text class="batch-text">{{batchMode ? '退出批量' : '批量管理'}}</text>
+        </view>
+      </view>
+      <view class="summary-period flex-row flex-between">
+        <view class="period-picker">
+          <picker mode="selector" range="{{yearList}}" value="{{selectedYear}}" bindchange="changeYear">
+            <view class="picker-display flex-row">
+              <text>{{selectedYear}}年</text>
+              <text class="picker-arrow">›</text>
+            </view>
+          </picker>
+        </view>
+        <view wx:if="{{summaryType === 'month'}}" class="period-picker">
+          <picker mode="selector" range="{{monthList}}" value="{{selectedMonth - 1}}" bindchange="changeMonth">
+            <view class="picker-display flex-row">
+              <text>{{selectedMonth}}月</text>
+              <text class="picker-arrow">›</text>
+            </view>
+          </picker>
         </view>
       </view>
       <view class="summary-stats">
         <view class="stat-item">
           <text class="stat-label">总收入</text>
-          <text class="stat-value income">{{monthTotal.income}}</text>
+          <text class="stat-value income">{{summaryType === 'month' ? monthTotal.income : yearTotal.income}}</text>
         </view>
         <view class="stat-item">
           <text class="stat-label">总支出</text>
-          <text class="stat-value expense">{{monthTotal.expense}}</text>
+          <text class="stat-value expense">{{summaryType === 'month' ? monthTotal.expense : yearTotal.expense}}</text>
         </view>
         <view class="stat-item">
           <text class="stat-label">结余</text>
-          <text class="stat-value balance">{{monthTotal.balance}}</text>
+          <text class="stat-value balance">{{summaryType === 'month' ? monthTotal.balance : yearTotal.balance}}</text>
         </view>
       </view>
     </view>

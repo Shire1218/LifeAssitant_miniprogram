@@ -1,0 +1,50 @@
+<view class="page-bg">
+  <view class="container">
+    <view class="range-switcher">
+      <view class="switch-btn {{timeRange === 'year' ? 'active' : ''}}" bindtap="switchRange" data-range="year">年</view>
+      <view class="switch-btn {{timeRange === 'month' ? 'active' : ''}}" bindtap="switchRange" data-range="month">月</view>
+    </view>
+
+    <view class="period-row flex-row flex-between">
+      <view class="period-picker">
+        <picker mode="selector" range="{{yearList}}" value="{{selectedYear}}" bindchange="changeYear">
+          <view class="picker-display flex-row">
+            <text>{{selectedYear}}年</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+      <view wx:if="{{timeRange === 'month'}}" class="period-picker">
+        <picker mode="selector" range="{{monthList}}" value="{{selectedMonth - 1}}" bindchange="changeMonth">
+          <view class="picker-display flex-row">
+            <text>{{selectedMonth}}月</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="total-card">
+      <text class="total-label">总支出</text>
+      <text class="total-value">{{totalAmount}}</text>
+    </view>
+
+    <view class="chart-card">
+      <canvas type="2d" id="pieCanvas" class="pie-canvas" wx:if="{{chartData.length > 0}}"></canvas>
+      <view wx:else class="empty-chart">
+        <text class="empty-chart-text">暂无支出数据</text>
+      </view>
+    </view>
+
+    <view class="legend-card" wx:if="{{legendList.length > 0}}">
+      <view class="legend-item" wx:for="{{legendList}}" wx:key="name">
+        <view class="legend-color" style="background-color: {{item.color}};"></view>
+        <text class="legend-name">{{item.name}}</text>
+        <view class="legend-right">
+          <text class="legend-amount">{{item.value}}</text>
+          <text class="legend-percent">{{item.percent}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

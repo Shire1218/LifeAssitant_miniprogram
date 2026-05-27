@@ -29,6 +29,9 @@ Page({
 
   onShow() {
     this.loadSchedules()
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ active: 2 })
+    }
   },
 
   loadSchedules() {

@@ -1,9 +1,26 @@
 const storage = require('../../utils/storage')
-const { formatMoney, getMonthRange, getToday } = require('../../utils/time')
+const { formatMoney, getToday, getYearRange, getMonthRange } = require('../../utils/time')
 const { showToast, showConfirm, generateId, groupBy, sortBy, sumBy } = require('../../utils/common')
 
 const EXPENSE_TAGS = ['交通', '餐饮', '日用', '购物', '娱乐', '医疗', '教育', '其他']
 const INCOME_TAGS = ['工资', '奖金', '红包', '兼职', '其他']
+
+function getYearList() {
+  const currentYear = new Date().getFullYear()
+  const years = []
+  for (let y = currentYear; y >= currentYear - 10; y--) {
+    years.push(y)
+  }
+  return years
+}
+
+function getMonthList() {
+  const months = []
+  for (let m = 1; m <= 12; m++) {
+    months.push(m)
+  }
+  return months
+}
 
 Page({
   data: {
@@ -11,9 +28,16 @@ Page({
     type: 'expense',
     expenseTags: EXPENSE_TAGS,
     incomeTags: INCOME_TAGS,
+    summaryType: 'month',
+    selectedYear: 0,
+    selectedMonth: 0,
+    yearList: [],
+    monthList: [],
     monthTotal: { income: 0, expense: 0, balance: 0 },
+    yearTotal: { income: 0, expense: 0, balance: 0 },
     groupedBills: [],
     currentMonth: '',
+    currentYear: '',
     showAddModal: false,
     editingBill: null,
     form: {
@@ -28,11 +52,23 @@ Page({
   },
 
   onLoad() {
+    const now = new Date()
+    const year = now.getFullYear()
+    const month = now.getMonth() + 1
+    this.setData({
+      selectedYear: year,
+      selectedMonth: month,
+      yearList: getYearList(),
+      monthList: getMonthList()
+    })
     this.loadBills()
   },
 
   onShow() {
     this.loadBills()
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ active: 0 })
+    }
   },
 
   onPullDownRefresh() {
@@ -40,31 +76,77 @@ Page({
     wx.stopPullDownRefresh()
   },
 
+  switchSummaryType(e) {
+    const type = e.currentTarget.dataset.type
+    this.setData({ summaryType: type })
+    this.computeSummary()
+  },
+
+  changeYear(e) {
+    const year = Number(e.detail.value)
+    this.setData({ selectedYear: year })
+    this.computeSummary()
+  },
+
+  changeMonth(e) {
+    const month = Number(e.detail.value)
+    this.setData({ selectedMonth: month })
+    this.computeSummary()
+  },
+
   loadBills() {
     const bills = storage.get('bills') || []
     const sortedBills = sortBy(bills, 'createTime', true)
+    this.setData({ bills: sortedBills }, () => {
+      this.computeSummary()
+    })
+  },
+
+  computeSummary() {
+    const { bills, summaryType, selectedYear, selectedMonth } = this.data
+
     const monthRange = getMonthRange(new Date())
     const currentMonth = `${monthRange.year}年${monthRange.month}月`
-
-    const monthBills = sortedBills.filter(bill => {
+    const monthBills = bills.filter(bill => {
       const billMonth = bill.date.substring(0, 7)
       return billMonth === `${monthRange.year}-${String(monthRange.month).padStart(2, '0')}`
     })
+    const monthIncome = sumBy(monthBills.filter(b => b.type === 'income'), 'amount')
+    const monthExpense = sumBy(monthBills.filter(b => b.type === 'expense'), 'amount')
 
-    const income = sumBy(monthBills.filter(b => b.type === 'income'), 'amount')
-    const expense = sumBy(monthBills.filter(b => b.type === 'expense'), 'amount')
+    const yearRange = getYearRange(new Date())
+    const currentYear = `${yearRange.year}年`
+    const yearBills = bills.filter(bill => {
+      const billYear = bill.date.substring(0, 4)
+      return billYear === String(yearRange.year)
+    })
+    const yearIncome = sumBy(yearBills.filter(b => b.type === 'income'), 'amount')
+    const yearExpense = sumBy(yearBills.filter(b => b.type === 'expense'), 'amount')
 
-    const grouped = this.groupBillsByDate(sortedBills)
+    let filteredBills = []
+    if (summaryType === 'month') {
+      const targetMonth = `${selectedYear}-${String(selectedMonth).padStart(2, '0')}`
+      filteredBills = bills.filter(bill => bill.date.substring(0, 7) === targetMonth)
+    } else {
+      filteredBills = bills.filter(bill => bill.date.substring(0, 4) === String(selectedYear))
+    }
+
+    const grouped = this.groupBillsByDate(filteredBills)
 
     this.setData({
-      bills: sortedBills,
       groupedBills: grouped,
       monthTotal: {
-        income: formatMoney(income),
-        expense: formatMoney(expense),
-        balance: formatMoney(income - expense)
+        income: formatMoney(monthIncome),
+        expense: formatMoney(monthExpense),
+        balance: formatMoney(monthIncome - monthExpense)
       },
-      currentMonth
+      yearTotal: {
+        income: formatMoney(yearIncome),
+        expense: formatMoney(yearExpense),
+        balance: formatMoney(yearIncome - yearExpense)
+      },
+      currentMonth,
+      currentYear
     })
   },
 
@@ -83,16 +165,11 @@ Page({
   },
 
   formatDateText(dateStr) {
-    const date = new Date(dateStr)
-    const today = getToday()
-    const yesterday = new Date()
-    yesterday.setDate(yesterday.getDate() - 1)
-
-    if (dateStr === today) return '今天'
-    if (dateStr === formatDate(yesterday)) return '昨天'
-
-    const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
-    return `${weekDays[date.getDay()]} ${date.getMonth() + 1}月${date.getDate()}日`
+    const parts = dateStr.split('-')
+    const year = parts[0]
+    const month = parts[1]
+    const day = parts[2]
+    return `${year}年${month}月${day}日`
   },
 
   switchType(e) {
@@ -262,10 +339,3 @@ Page({
     this.loadBills()
   }
 })
-
-function formatDate(date) {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-}
