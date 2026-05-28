@@ -12,7 +12,7 @@
       </view>
       <view class="summary-period flex-row flex-between">
         <view class="period-picker">
-          <picker mode="selector" range="{{yearList}}" value="{{selectedYear}}" bindchange="changeYear">
+          <picker mode="selector" range="{{yearList}}" value="{{selectedYearIndex}}" bindchange="changeYear">
             <view class="picker-display flex-row">
               <text>{{selectedYear}}年</text>
               <text class="picker-arrow">›</text>
@@ -89,7 +89,10 @@
     </view>
   </view>
 
-  <view class="fab" bindtap="openAddModal">
+  <view class="fab" style="{{fabStyle}}"
+    bindtouchstart="onFabTouchStart"
+    bindtouchmove="onFabTouchMove"
+    bindtouchend="onFabTouchEnd">
     <text class="fab-icon">+</text>
   </view>
 
