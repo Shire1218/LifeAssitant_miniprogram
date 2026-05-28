@@ -71,9 +71,9 @@ Page({
     const safeBottom = systemInfo.safeArea ? (systemInfo.windowHeight - systemInfo.safeArea.bottom) : 0
     const tabBarHeight = 60
     const fabSize = 60
-    const minTop = 50
-    const maxTop = (windowHeight - tabBarHeight * 2 - fabSize - safeBottom * 2)
-    const defaultTop = Math.max(minTop, Math.min(maxTop, windowHeight * 0.5))
+    const minTop = windowHeight * 0.5
+    const maxTop = windowHeight - fabSize - safeBottom - tabBarHeight - 20
+    const defaultTop = Math.max(minTop, Math.min(maxTop, windowHeight * 0.65))
 
     this.setData({
       selectedYear: year,
@@ -394,17 +394,17 @@ Page({
     const windowHeight = systemInfo.windowHeight
     const windowWidth = systemInfo.windowWidth
     const safeBottom = systemInfo.safeArea ? (systemInfo.windowHeight - systemInfo.safeArea.bottom) : 0
+    const tabBarHeight = 60
     const fabSize = 60
-    const minTop = 50
-    const maxTop = windowHeight - fabSize - safeBottom - 60
-    const minRight = 10
-    const maxRight = windowWidth - fabSize - 10
+    const minTop = windowHeight * 0.5
+    const maxTop = windowHeight - fabSize - safeBottom - tabBarHeight - 20
+    const minRight = windowWidth * 0.5
 
     let newTop = this.data.fabStartTop + (touch.clientY - this.data.touchStartY)
     let newRight = this.data.fabStartRight - (touch.clientX - this.data.touchStartX)
 
     newTop = Math.max(minTop, Math.min(maxTop, newTop))
-    newRight = Math.max(minRight, Math.min(maxRight, newRight))
+    newRight = Math.max(0, Math.min(minRight, newRight))
 
     this.setData({
       fabTop: newTop,

@@ -91,13 +91,13 @@
 
   <view class="fab" style="{{fabStyle}}"
     bindtouchstart="onFabTouchStart"
-    bindtouchmove="onFabTouchMove"
+    catchtouchmove="onFabTouchMove"
     bindtouchend="onFabTouchEnd">
     <text class="fab-icon">+</text>
   </view>
 
   <view wx:if="{{showAddModal}}" class="modal-mask" bindtap="closeAddModal">
-    <view class="modal-sheet" catchtap="onModalTap" catchtouchmove="preventMove">
+    <view class="modal-sheet" catchtap="onModalTap">
       <view class="modal-handle"></view>
       <view class="modal-title-bar flex-between">
         <text class="modal-title">{{editingBill ? '编辑账单' : '新增账单'}}</text>
@@ -106,7 +106,7 @@
         </view>
       </view>
 
-      <view class="modal-scroll">
+      <scroll-view class="modal-scroll" scroll-y enhanced show-scrollbar="{{false}}">
         <view class="type-switcher">
           <view class="switch-btn {{form.type === 'expense' ? 'active expense' : ''}}" bindtap="switchType" data-type="expense">支出</view>
           <view class="switch-btn {{form.type === 'income' ? 'active income' : ''}}" bindtap="switchType" data-type="income">收入</view>
@@ -141,7 +141,7 @@
             <textarea class="form-textarea" placeholder="添加备注..." value="{{form.note}}" bindinput="inputNote" maxlength="200" />
           </view>
         </view>
-      </view>
+      </scroll-view>
 
       <view class="modal-footer">
         <view class="submit-btn" bindtap="saveBill">{{editingBill ? '保存修改' : '添加账单'}}</view>

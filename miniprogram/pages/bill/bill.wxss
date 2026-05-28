@@ -73,27 +73,28 @@
 
 .summary-stats {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  flex-direction: column;
+  gap: 20rpx;
   padding-top: 24rpx;
   border-top: 1rpx solid rgba(255, 255, 255, 0.2);
 }
 
 .stat-item {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 }
 
 .stat-label {
   font-size: 28rpx;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.75);
-  margin-bottom: 8rpx;
+  margin-bottom: 0;
 }
 
 .stat-value {
-  font-size: 52rpx;
+  font-size: 48rpx;
   font-weight: 800;
   color: #ffffff;
 }
@@ -328,7 +329,7 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 300;
+  z-index: 1000;
   display: flex;
   align-items: flex-end;
 }
@@ -338,6 +339,7 @@
   background-color: #ffffff;
   border-radius: 32rpx 32rpx 0 0;
   max-height: 85vh;
+  height: 85vh;
   display: flex;
   flex-direction: column;
 }
@@ -378,7 +380,7 @@
 
 .modal-scroll {
   flex: 1;
-  overflow-y: auto;
+  height: 0;
   padding: 32rpx;
 }
 
@@ -512,6 +514,8 @@
   padding: 24rpx 32rpx;
   padding-bottom: calc(48rpx + env(safe-area-inset-bottom));
   border-top: 1rpx solid #f5f5f5;
+  background-color: #ffffff;
+  flex-shrink: 0;
 }
 
 .submit-btn {
@@ -524,6 +528,7 @@
   font-size: 34rpx;
   font-weight: 700;
   margin-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
 }
 
 .submit-btn:active {
