@@ -2,7 +2,7 @@
   "miniprogramRoot": "miniprogram/",
   "projectname": "LifeAssitant_miniprogram",
   "description": "生活助手小程序",
-  "appid": "wx2acc14cca1d97ecf",
+  "appid": "your id",
   "setting": {
     "urlCheck": false,
     "es6": true,
