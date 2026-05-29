@@ -108,7 +108,13 @@ Page({
 
   changeYear(e) {
     const yearIndex = Number(e.detail.value)
+    if (isNaN(yearIndex) || yearIndex < 0 || yearIndex >= this.data.yearList.length) {
+      return
+    }
     const year = this.data.yearList[yearIndex]
+    if (!year || year < 1900 || year > 2100) {
+      return
+    }
     this.setData({ selectedYearIndex: yearIndex, selectedYear: year }, () => {
       this.computeSummary()
     })
@@ -116,37 +122,53 @@ Page({
 
   changeMonth(e) {
     const monthIndex = Number(e.detail.value)
+    if (isNaN(monthIndex) || monthIndex < 0 || monthIndex >= this.data.monthList.length) {
+      return
+    }
     const month = this.data.monthList[monthIndex]
+    if (!month || month < 1 || month > 12) {
+      return
+    }
     this.setData({ selectedMonth: month }, () => {
       this.computeSummary()
     })
   },
 
   loadBills() {
-    const bills = storage.get('bills') || []
-    const sortedBills = sortBy(bills, 'createTime', true)
-    this.setData({ bills: sortedBills }, () => {
-      this.computeSummary()
-    })
+    try {
+      const bills = storage.get('bills') || []
+      const sortedBills = sortBy(bills, 'createTime', true)
+      this.setData({ bills: sortedBills }, () => {
+        this.computeSummary()
+      })
+    } catch (error) {
+      console.error('加载账单数据失败:', error)
+      showToast('加载数据失败，请稍后重试')
+      this.setData({
+        bills: [],
+        groupedBills: [],
+        monthTotal: { income: '0.00', expense: '0.00', balance: '0.00' },
+        yearTotal: { income: '0.00', expense: '0.00', balance: '0.00' }
+      })
+    }
   },
 
   computeSummary() {
     const { bills, summaryType, selectedYear, selectedMonth } = this.data
 
-    const monthRange = getMonthRange(new Date())
-    const currentMonth = `${monthRange.year}年${monthRange.month}月`
+    const currentMonth = `${selectedYear}年${selectedMonth}月`
+    const currentYear = `${selectedYear}年`
+
     const monthBills = bills.filter(bill => {
       const billMonth = bill.date.substring(0, 7)
-      return billMonth === `${monthRange.year}-${String(monthRange.month).padStart(2, '0')}`
+      return billMonth === `${selectedYear}-${String(selectedMonth).padStart(2, '0')}`
     })
     const monthIncome = sumBy(monthBills.filter(b => b.type === 'income'), 'amount')
     const monthExpense = sumBy(monthBills.filter(b => b.type === 'expense'), 'amount')
 
-    const yearRange = getYearRange(new Date())
-    const currentYear = `${yearRange.year}年`
     const yearBills = bills.filter(bill => {
       const billYear = bill.date.substring(0, 4)
-      return billYear === String(yearRange.year)
+      return billYear === String(selectedYear)
     })
     const yearIncome = sumBy(yearBills.filter(b => b.type === 'income'), 'amount')
     const yearExpense = sumBy(yearBills.filter(b => b.type === 'expense'), 'amount')
@@ -167,14 +189,14 @@ Page({
     this.setData({
       groupedBills: grouped,
       monthTotal: {
-        income: formatMoney(displayIncome),
-        expense: formatMoney(displayExpense),
-        balance: formatMoney(displayIncome - displayExpense)
+        income: formatMoney(monthIncome),
+        expense: formatMoney(monthExpense),
+        balance: formatMoney(monthIncome - monthExpense)
       },
       yearTotal: {
-        income: formatMoney(displayIncome),
-        expense: formatMoney(displayExpense),
-        balance: formatMoney(displayIncome - displayExpense)
+        income: formatMoney(yearIncome),
+        expense: formatMoney(yearExpense),
+        balance: formatMoney(yearIncome - yearExpense)
       },
       currentMonth,
       currentYear

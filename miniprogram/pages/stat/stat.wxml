@@ -5,9 +5,14 @@
       <view class="switch-btn {{timeRange === 'month' ? 'active' : ''}}" bindtap="switchRange" data-range="month">月</view>
     </view>
 
+    <view class="type-switcher">
+      <view class="type-btn {{statType === 'expense' ? 'active' : ''}}" bindtap="switchType" data-type="expense">总支出</view>
+      <view class="type-btn {{statType === 'income' ? 'active' : ''}}" bindtap="switchType" data-type="income">总收入</view>
+    </view>
+
     <view class="period-row flex-row flex-between">
       <view class="period-picker">
-        <picker mode="selector" range="{{yearList}}" value="{{selectedYear}}" bindchange="changeYear">
+        <picker mode="selector" range="{{yearList}}" value="{{selectedYearIndex}}" bindchange="changeYear">
           <view class="picker-display flex-row">
             <text>{{selectedYear}}年</text>
             <text class="picker-arrow">›</text>
@@ -25,14 +30,14 @@
     </view>
 
     <view class="total-card">
-      <text class="total-label">总支出</text>
+      <text class="total-label">{{statType === 'expense' ? '总支出' : '总收入'}}</text>
       <text class="total-value">{{totalAmount}}</text>
     </view>
 
     <view class="chart-card">
       <canvas type="2d" id="pieCanvas" class="pie-canvas" wx:if="{{chartData.length > 0}}"></canvas>
       <view wx:else class="empty-chart">
-        <text class="empty-chart-text">暂无支出数据</text>
+        <text class="empty-chart-text">{{statType === 'expense' ? '暂无支出数据' : '暂无收入数据'}}</text>
       </view>
     </view>
 

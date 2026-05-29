@@ -25,8 +25,10 @@ Page({
   data: {
     bills: [],
     timeRange: 'month',
+    statType: 'expense',
     selectedYear: 0,
     selectedMonth: 0,
+    selectedYearIndex: 0,
     yearList: [],
     monthList: [],
     chartData: [],
@@ -38,10 +40,13 @@ Page({
     const now = new Date()
     const year = now.getFullYear()
     const month = now.getMonth() + 1
+    const yearList = getYearList()
+    const yearIndex = yearList.indexOf(year)
     this.setData({
       selectedYear: year,
       selectedMonth: month,
-      yearList: getYearList(),
+      selectedYearIndex: yearIndex >= 0 ? yearIndex : 0,
+      yearList: yearList,
       monthList: getMonthList()
     })
     this.loadBills()
@@ -67,20 +72,43 @@ Page({
     this.computeStats()
   },
 
+  switchType(e) {
+    const type = e.currentTarget.dataset.type
+    this.setData({ statType: type }, () => {
+      this.computeStats()
+    })
+  },
+
   changeYear(e) {
-    const year = Number(e.detail.value)
-    this.setData({ selectedYear: year })
-    this.computeStats()
+    const yearIndex = Number(e.detail.value)
+    if (isNaN(yearIndex) || yearIndex < 0 || yearIndex >= this.data.yearList.length) {
+      return
+    }
+    const year = this.data.yearList[yearIndex]
+    if (!year || year < 1900 || year > 2100) {
+      return
+    }
+    this.setData({ selectedYearIndex: yearIndex, selectedYear: year }, () => {
+      this.computeStats()
+    })
   },
 
   changeMonth(e) {
-    const month = Number(e.detail.value)
-    this.setData({ selectedMonth: month })
-    this.computeStats()
+    const monthIndex = Number(e.detail.value)
+    if (isNaN(monthIndex) || monthIndex < 0 || monthIndex >= this.data.monthList.length) {
+      return
+    }
+    const month = this.data.monthList[monthIndex]
+    if (!month || month < 1 || month > 12) {
+      return
+    }
+    this.setData({ selectedMonth: month }, () => {
+      this.computeStats()
+    })
   },
 
   computeStats() {
-    const { bills, timeRange, selectedYear, selectedMonth } = this.data
+    const { bills, timeRange, statType, selectedYear, selectedMonth } = this.data
 
     let filtered = []
     if (timeRange === 'year') {
@@ -90,8 +118,8 @@ Page({
       filtered = bills.filter(b => b.date.substring(0, 7) === targetMonth)
     }
 
-    const expenseBills = filtered.filter(b => b.type === 'expense')
-    const grouped = groupBy(expenseBills, 'tag')
+    const typeBills = filtered.filter(b => b.type === statType)
+    const grouped = groupBy(typeBills, 'tag')
 
     const chartData = []
     const legendList = []
