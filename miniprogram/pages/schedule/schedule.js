@@ -6,7 +6,8 @@ Page({
   data: {
     schedules: [],
     daySchedules: [],
-    currentDate: new Date(),
+    currentYear: 0,
+    currentMonth: 0,
     selectedDate: getToday(),
     calendarDays: [],
     scheduleDates: [],
@@ -23,6 +24,11 @@ Page({
   },
 
   onLoad() {
+    const now = new Date()
+    this.setData({
+      currentYear: now.getFullYear(),
+      currentMonth: now.getMonth()
+    })
     this.loadSchedules()
     this.initCalendar()
   },
@@ -48,9 +54,8 @@ Page({
   },
 
   initCalendar() {
-    const date = this.data.currentDate
-    const year = date.getFullYear()
-    const month = date.getMonth()
+    const year = this.data.currentYear
+    const month = this.data.currentMonth
     const firstDay = new Date(year, month, 1).getDay()
     const daysInMonth = getDaysInMonth(year, month + 1)
 
@@ -92,16 +97,26 @@ Page({
   },
 
   prevMonth() {
-    const date = new Date(this.data.currentDate)
-    date.setMonth(date.getMonth() - 1)
-    this.setData({ currentDate: date })
+    let year = this.data.currentYear
+    let month = this.data.currentMonth
+    month--
+    if (month < 0) {
+      month = 11
+      year--
+    }
+    this.setData({ currentYear: year, currentMonth: month })
     this.initCalendar()
   },
 
   nextMonth() {
-    const date = new Date(this.data.currentDate)
-    date.setMonth(date.getMonth() + 1)
-    this.setData({ currentDate: date })
+    let year = this.data.currentYear
+    let month = this.data.currentMonth
+    month++
+    if (month > 11) {
+      month = 0
+      year++
+    }
+    this.setData({ currentYear: year, currentMonth: month })
     this.initCalendar()
   },
 
@@ -190,6 +205,11 @@ Page({
 
     if (!form.title) {
       showToast('请输入日程标题')
+      return
+    }
+
+    if (!form.date) {
+      showToast('请选择日期')
       return
     }
 

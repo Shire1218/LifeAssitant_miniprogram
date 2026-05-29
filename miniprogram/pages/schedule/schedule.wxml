@@ -82,58 +82,60 @@
         </view>
       </view>
 
-      <view class="modal-scroll">
-        <view class="form-group">
-          <text class="form-label">日程标题</text>
-          <input class="form-input" placeholder="输入日程标题" value="{{form.title}}" bindinput="inputTitle" />
-        </view>
+      <scroll-view class="modal-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+        <view class="modal-scroll-inner">
+          <view class="form-group">
+            <text class="form-label">日程标题</text>
+            <textarea class="form-input form-title-input" placeholder="输入日程标题" value="{{form.title}}" bindinput="inputTitle" auto-height show-confirm-bar="{{false}}" />
+          </view>
 
-        <view class="form-group">
-          <text class="form-label">日期</text>
-          <picker mode="date" value="{{form.date}}" start="2020-01-01" end="2099-12-31" bindchange="changeDate">
-            <view class="form-picker flex-between">
-              <text class="{{form.date ? '' : 'placeholder'}}">{{form.date || '选择日期'}}</text>
-              <text class="picker-arrow">›</text>
+          <view class="form-group">
+            <text class="form-label">日期</text>
+            <picker mode="date" value="{{form.date}}" start="2020-01-01" end="2099-12-31" bindchange="changeDate">
+              <view class="form-picker flex-between">
+                <text class="{{form.date ? '' : 'placeholder'}}">{{form.date || '选择日期'}}</text>
+                <text class="picker-arrow">›</text>
+              </view>
+            </picker>
+          </view>
+
+          <view class="form-row">
+            <view class="form-group flex-1">
+              <text class="form-label">开始时间</text>
+              <picker mode="time" value="{{form.startTime}}" bindchange="changeStartTime">
+                <view class="form-picker flex-between">
+                  <text class="{{form.startTime ? '' : 'placeholder'}}">{{form.startTime || '选择时间'}}</text>
+                  <text class="picker-arrow">›</text>
+                </view>
+              </picker>
             </view>
-          </picker>
-        </view>
-
-        <view class="form-row">
-          <view class="form-group flex-1">
-            <text class="form-label">开始时间</text>
-            <picker mode="time" value="{{form.startTime}}" bindchange="changeStartTime">
-              <view class="form-picker flex-between">
-                <text class="{{form.startTime ? '' : 'placeholder'}}">{{form.startTime || '选择时间'}}</text>
-                <text class="picker-arrow">›</text>
-              </view>
-            </picker>
+            <view class="form-group flex-1">
+              <text class="form-label">结束时间</text>
+              <picker mode="time" value="{{form.endTime}}" bindchange="changeEndTime">
+                <view class="form-picker flex-between">
+                  <text class="{{form.endTime ? '' : 'placeholder'}}">{{form.endTime || '选择时间'}}</text>
+                  <text class="picker-arrow">›</text>
+                </view>
+              </picker>
+            </view>
           </view>
-          <view class="form-group flex-1">
-            <text class="form-label">结束时间</text>
-            <picker mode="time" value="{{form.endTime}}" bindchange="changeEndTime">
-              <view class="form-picker flex-between">
-                <text class="{{form.endTime ? '' : 'placeholder'}}">{{form.endTime || '选择时间'}}</text>
-                <text class="picker-arrow">›</text>
-              </view>
-            </picker>
+
+          <view class="form-group">
+            <text class="form-label">地点（可选）</text>
+            <textarea class="form-input form-location-input" placeholder="输入地点" value="{{form.location}}" bindinput="inputLocation" auto-height show-confirm-bar="{{false}}" />
+          </view>
+
+          <view class="form-group">
+            <text class="form-label">备注（可选）</text>
+            <textarea class="form-textarea" placeholder="添加备注" value="{{form.note}}" bindinput="inputNote" maxlength="200" />
+          </view>
+
+          <view class="form-group form-switch-row flex-between">
+            <text class="form-label">消息提醒</text>
+            <switch checked="{{form.remind}}" bindchange="toggleRemind" color="#1677ff" />
           </view>
         </view>
-
-        <view class="form-group">
-          <text class="form-label">地点（可选）</text>
-          <input class="form-input" placeholder="输入地点" value="{{form.location}}" bindinput="inputLocation" />
-        </view>
-
-        <view class="form-group">
-          <text class="form-label">备注（可选）</text>
-          <textarea class="form-textarea" placeholder="添加备注" value="{{form.note}}" bindinput="inputNote" maxlength="200" />
-        </view>
-
-        <view class="form-group form-switch-row flex-between">
-          <text class="form-label">消息提醒</text>
-          <switch checked="{{form.remind}}" bindchange="toggleRemind" color="#1677ff" />
-        </view>
-      </view>
+      </scroll-view>
 
       <view class="modal-footer">
         <view class="submit-btn" bindtap="saveSchedule">{{editingSchedule ? '保存修改' : '添加日程'}}</view>
