@@ -77,8 +77,11 @@
       <view class="modal-handle"></view>
       <view class="modal-title-bar flex-between">
         <text class="modal-title">{{editingSchedule ? '编辑日程' : '新增日程'}}</text>
-        <view class="modal-close-btn" bindtap="closeAddModal">
-          <text>✕</text>
+        <view class="modal-title-actions">
+          <view class="modal-submit-btn" bindtap="saveSchedule">{{editingSchedule ? '保存修改' : '添加日程'}}</view>
+          <view class="modal-close-btn" bindtap="closeAddModal">
+            <text>✕</text>
+          </view>
         </view>
       </view>
 
@@ -137,9 +140,6 @@
         </view>
       </scroll-view>
 
-      <view class="modal-footer">
-        <view class="submit-btn" bindtap="saveSchedule">{{editingSchedule ? '保存修改' : '添加日程'}}</view>
-      </view>
     </view>
   </view>
 </view>
