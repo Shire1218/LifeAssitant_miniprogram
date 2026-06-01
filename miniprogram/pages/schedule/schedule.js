@@ -13,13 +13,19 @@ Page({
     scheduleDates: [],
     showAddModal: false,
     editingSchedule: null,
+    priorityOptions: [
+      { value: 'high', label: '高', color: '#ff4d4f' },
+      { value: 'medium', label: '中', color: '#faad14' },
+      { value: 'low', label: '低', color: '#52c41a' }
+    ],
     form: {
       title: '',
       startTime: '',
       endTime: '',
       location: '',
       note: '',
-      remind: false
+      remind: false,
+      priority: 'medium'
     }
   },
 
@@ -42,7 +48,15 @@ Page({
 
   loadSchedules() {
     const schedules = storage.get('schedules') || []
-    const sorted = sortBy(schedules, 'startTime', false)
+    const priorityOrder = { high: 0, medium: 1, low: 2 }
+    const sorted = schedules.sort((a, b) => {
+      const timeA = a.startTime || ''
+      const timeB = b.startTime || ''
+      if (timeA !== timeB) return timeA.localeCompare(timeB)
+      const pA = priorityOrder[a.priority] !== undefined ? priorityOrder[a.priority] : 1
+      const pB = priorityOrder[b.priority] !== undefined ? priorityOrder[b.priority] : 1
+      return pA - pB
+    })
     const scheduleDates = [...new Set(sorted.map(s => s.date))]
     const daySchedules = sorted.filter(s => s.date === this.data.selectedDate)
     this.setData({
@@ -146,7 +160,8 @@ Page({
         location: '',
         note: '',
         remind: false,
-        date: this.data.selectedDate
+        date: this.data.selectedDate,
+        priority: 'medium'
       }
     })
   },
@@ -167,7 +182,8 @@ Page({
         location: schedule.location,
         note: schedule.note,
         remind: schedule.remind,
-        date: schedule.date
+        date: schedule.date,
+        priority: schedule.priority || 'medium'
       }
     })
   },
@@ -198,6 +214,11 @@ Page({
 
   toggleRemind() {
     this.setData({ 'form.remind': !this.data.form.remind })
+  },
+
+  selectPriority(e) {
+    const priority = e.currentTarget.dataset.priority
+    this.setData({ 'form.priority': priority })
   },
 
   async saveSchedule() {
@@ -232,6 +253,7 @@ Page({
             location: form.location,
             note: form.note,
             remind: form.remind,
+            priority: form.priority,
             updateTime: new Date().getTime()
           }
         }
@@ -248,6 +270,7 @@ Page({
         location: form.location,
         note: form.note,
         remind: form.remind,
+        priority: form.priority,
         completed: false,
         createTime: new Date().getTime(),
         updateTime: new Date().getTime()

@@ -2,7 +2,7 @@
   <view class="container">
     <view class="header-card">
       <view class="header-top flex-between">
-        <text class="header-title">饮食记录</text>
+        <text class="header-title">饮食管理</text>
         <picker mode="date" value="{{selectedDate}}" start="2020-01-01" end="2099-12-31" bindchange="changeDate">
           <view class="date-picker flex-row">
             <text class="date-text">{{selectedDate}}</text>
@@ -10,92 +10,201 @@
           </view>
         </picker>
       </view>
+
+      <view class="nutrition-summary">
+        <view class="nutrition-item">
+          <text class="nutrition-value">{{totalCalories}}</text>
+          <text class="nutrition-label">热量(kcal)</text>
+        </view>
+        <view class="nutrition-item">
+          <text class="nutrition-value">{{totalProtein}}</text>
+          <text class="nutrition-label">蛋白质(g)</text>
+        </view>
+        <view class="nutrition-item">
+          <text class="nutrition-value">{{totalFat}}</text>
+          <text class="nutrition-label">脂肪(g)</text>
+        </view>
+        <view class="nutrition-item">
+          <text class="nutrition-value">{{totalCarbs}}</text>
+          <text class="nutrition-label">碳水(g)</text>
+        </view>
+      </view>
     </view>
 
-    <view class="meal-tabs">
+    <view class="meal-type-tabs">
       <view wx:for="{{mealTypes}}" wx:key="key"
-            class="meal-tab {{activeMealTab === item.key ? 'active' : ''}}"
-            bindtap="switchMealTab" data-meal="{{item.key}}">
-        <text class="meal-emoji">{{item.emoji}}</text>
-        <text class="meal-name">{{item.label}}</text>
+            class="meal-type-tab {{selectedMealType === item.key ? 'active' : ''}}"
+            bindtap="switchMealType" data-meal="{{item.key}}">
+        <text class="meal-type-emoji">{{item.emoji}}</text>
+        <text class="meal-type-label">{{item.label}}</text>
       </view>
     </view>
 
-    <view class="diet-list">
-      <view wx:if="{{currentMeals.length === 0}}" class="empty-meal">
-        <text class="empty-meal-emoji">{{currentMealType.emoji}}</text>
-        <text class="empty-meal-text">{{currentMealType.label}}暂无记录</text>
+    <view class="search-bar">
+      <input class="search-input" placeholder="搜索菜品名称或分类..." value="{{searchKeyword}}" bindinput="onSearchInput" />
+    </view>
+
+    <scroll-view class="category-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="category-list">
+        <view wx:for="{{foodCategories}}" wx:key="key"
+              class="category-item {{activeCategory === item.key ? 'active' : ''}}"
+              bindtap="switchCategory" data-category="{{item.key}}"
+              style="{{activeCategory === item.key ? 'background-color: ' + item.color : ''}}">
+          <text class="category-icon">{{item.icon}}</text>
+          <text class="category-label" style="{{activeCategory === item.key ? 'color: #ffffff' : ''}}">{{item.label}}</text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="food-list">
+      <view wx:if="{{filteredFoods.length === 0}}" class="empty-food">
+        <text class="empty-food-emoji">🔍</text>
+        <text class="empty-food-text">暂无相关菜品</text>
       </view>
 
-      <view wx:for="{{currentMeals}}" wx:for-item="diet" wx:key="id" class="diet-card">
-        <view class="diet-card-header flex-between">
-          <text class="diet-text">{{diet.detail}}</text>
-          <view class="diet-delete-btn" catchtap="deleteDiet" data-diet="{{diet}}">
-            <text>✕</text>
+      <view wx:for="{{filteredFoods}}" wx:key="id" class="food-card" bindtap="viewFoodDetail" data-food="{{item}}">
+        <view class="food-info">
+          <text class="food-name">{{item.name}}</text>
+          <view class="food-tags">
+            <view class="food-tag tag-category">{{item.category}}</view>
+            <view class="food-tag tag-calories">{{item.calories}}kcal</view>
+          </view>
+          <view class="food-nutrition">
+            <text class="nutrition-text">P:{{item.protein}}g · F:{{item.fat}}g · C:{{item.carbs}}g</text>
           </view>
         </view>
-        <view wx:if="{{diet.images.length > 0}}" class="diet-images">
-          <image wx:for="{{diet.images}}" wx:for-item="img" wx:key="*this"
-                 src="{{img}}" mode="aspectFill" class="diet-img"
-                 bindtap="previewImage" data-url="{{img}}">
-          </image>
+        <view class="food-price-action">
+          <text class="food-price">¥{{item.price}}</text>
+          <view class="add-cart-btn" catchtap="addToCart" data-food="{{item}}">
+            <text>+</text>
+          </view>
         </view>
       </view>
     </view>
 
-    <view class="action-bar flex-row">
-      <view class="action-btn action-record" bindtap="openAddModal">
-        <text class="action-icon">✏️</text>
-        <text class="action-label">记录饮食</text>
+    <view class="cart-bar" bindtap="toggleCart">
+      <view class="cart-icon-wrapper">
+        <text class="cart-icon">🛒</text>
+        <view wx:if="{{cartItems.length > 0}}" class="cart-badge">{{cartItems.length}}</view>
       </view>
-      <view class="action-btn action-quick" bindtap="goToQuickMeal">
-        <text class="action-icon">⚡</text>
-        <text class="action-label">快捷点餐</text>
+      <view class="cart-info">
+        <text class="cart-total">¥{{cartTotal || 0}}</text>
+        <text class="cart-hint">点击查看购物车</text>
       </view>
     </view>
   </view>
 
-  <view wx:if="{{showAddModal}}" class="modal-mask" bindtap="closeAddModal">
-    <view class="modal-sheet" catchtap="onModalTap" catchtouchmove="preventMove">
-      <view class="modal-handle"></view>
-      <view class="modal-title-bar flex-between">
-        <text class="modal-title">记录饮食</text>
-        <view class="modal-close-btn" bindtap="closeAddModal">
-          <text>✕</text>
+  <view wx:if="{{showCart}}" class="cart-mask" bindtap="toggleCart">
+    <view class="cart-sheet" catchtap="onModalTap" catchtouchmove="preventMove">
+      <view class="cart-header flex-between">
+        <text class="cart-title">点餐篮 ({{cartItems.length}})</text>
+        <view class="clear-cart-btn" bindtap="clearCart">
+          <text>清空</text>
         </view>
       </view>
 
-      <view class="modal-scroll">
-        <view class="meal-type-grid">
-          <view wx:for="{{mealTypes}}" wx:key="key"
-                class="meal-type-card {{form.mealType === item.key ? 'active' : ''}}"
-                bindtap="changeMealTypeForm" data-meal="{{item.key}}">
-            <text class="meal-type-emoji">{{item.emoji}}</text>
-            <text class="meal-type-label">{{item.label}}</text>
+      <scroll-view class="cart-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+        <view wx:if="{{cartItems.length === 0}}" class="empty-cart">
+          <text class="empty-cart-emoji">🛒</text>
+          <text class="empty-cart-text">购物车为空</text>
+        </view>
+
+        <view wx:for="{{cartItems}}" wx:key="id" class="cart-item">
+          <view class="cart-item-info">
+            <text class="cart-item-name">{{item.name}}</text>
+            <text class="cart-item-portion">{{item.portion}}</text>
+          </view>
+          <view class="cart-item-action">
+            <view class="cart-qty-control">
+              <view class="qty-btn" catchtap="removeFromCart" data-id="{{item.id}}">
+                <text>−</text>
+              </view>
+              <text class="qty-num">{{item.quantity}}</text>
+              <view class="qty-btn" catchtap="increaseCart" data-id="{{item.id}}">
+                <text>+</text>
+              </view>
+            </view>
+            <text class="cart-item-price">¥{{item.price}}</text>
           </view>
         </view>
+      </scroll-view>
 
-        <view class="form-group">
-          <text class="form-label">饮食详情</text>
-          <textarea class="form-textarea" placeholder="描述你吃了什么..." value="{{form.detail}}" bindinput="inputDetail" maxlength="500" />
+      <view class="cart-footer">
+        <view class="cart-summary">
+          <text class="summary-label">合计</text>
+          <text class="summary-price">¥{{cartTotal || 0}}</text>
         </view>
+        <view class="submit-order-btn" bindtap="submitOrder">确认下单</view>
+      </view>
+    </view>
+  </view>
 
-        <view class="form-group">
-          <text class="form-label">图片（可选）</text>
-          <view class="image-upload-area">
-            <view wx:for="{{form.images}}" wx:key="*this" class="uploaded-image">
-              <image src="{{item}}" mode="aspectFill" />
-              <view class="image-delete" catchtap="deleteImage" data-index="{{index}}">✕</view>
-            </view>
-            <view wx:if="{{form.images.length < 9}}" class="upload-btn" bindtap="chooseImage">
-              <text>+</text>
-            </view>
+  <view wx:if="{{showFoodDetail && selectedFood}}" class="detail-mask" bindtap="closeFoodDetail">
+    <view class="detail-sheet" catchtap="onModalTap" catchtouchmove="preventMove">
+      <view class="detail-handle"></view>
+      <view class="detail-header">
+        <text class="detail-name">{{selectedFood.name}}</text>
+        <view class="detail-category">{{selectedFood.category}}</view>
+      </view>
+
+      <view class="detail-nutrition-grid">
+        <view class="detail-nutrition-item">
+          <text class="detail-nutrition-value">{{selectedFood.calories}}</text>
+          <text class="detail-nutrition-label">热量(kcal)</text>
+        </view>
+        <view class="detail-nutrition-item">
+          <text class="detail-nutrition-value">{{selectedFood.protein}}g</text>
+          <text class="detail-nutrition-label">蛋白质</text>
+        </view>
+        <view class="detail-nutrition-item">
+          <text class="detail-nutrition-value">{{selectedFood.fat}}g</text>
+          <text class="detail-nutrition-label">脂肪</text>
+        </view>
+        <view class="detail-nutrition-item">
+          <text class="detail-nutrition-value">{{selectedFood.carbs}}g</text>
+          <text class="detail-nutrition-label">碳水</text>
+        </view>
+      </view>
+
+      <view class="detail-portion">
+        <text class="portion-label">分量</text>
+        <view class="portion-control">
+          <view class="portion-btn" catchtap="changePortion" data-step="{{-0.5}}">
+            <text>−</text>
+          </view>
+          <text class="portion-value">{{foodPortion}}x</text>
+          <view class="portion-btn" catchtap="changePortion" data-step="{{0.5}}">
+            <text>+</text>
           </view>
         </view>
       </view>
 
-      <view class="modal-footer">
-        <view class="submit-btn" bindtap="saveDiet">保存记录</view>
+      <view class="detail-footer">
+        <text class="detail-price">¥{{selectedFood.price}}</text>
+        <view class="detail-add-btn" catchtap="addToCartFromDetail">加入购物车</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="diet-record-section">
+    <view class="section-title">今日饮食记录</view>
+    <view wx:if="{{todayDiets.length === 0}}" class="empty-record">
+      <text class="empty-record-emoji">📝</text>
+      <text class="empty-record-text">今日暂无饮食记录</text>
+    </view>
+
+    <view wx:for="{{todayDiets}}" wx:for-item="diet" wx:key="id" class="record-card">
+      <view class="record-info">
+        <text class="record-detail">{{diet.detail}}</text>
+        <view wx:if="{{diet.calories}}" class="record-nutrition">
+          <text class="record-cal">{{diet.calories}}kcal</text>
+          <text wx:if="{{diet.protein}}" class="record-nut">P:{{diet.protein}}g</text>
+          <text wx:if="{{diet.fat}}" class="record-nut">F:{{diet.fat}}g</text>
+          <text wx:if="{{diet.carbs}}" class="record-nut">C:{{diet.carbs}}g</text>
+        </view>
+      </view>
+      <view class="record-delete-btn" catchtap="deleteDiet" data-diet="{{diet}}">
+        <text>✕</text>
       </view>
     </view>
   </view>

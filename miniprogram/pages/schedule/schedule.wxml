@@ -55,7 +55,13 @@
           </view>
         </view>
         <view class="schedule-center flex-1" bindtap="editSchedule" data-schedule="{{item}}">
-          <text class="schedule-title {{item.completed ? 'completed-title' : ''}}">{{item.title}}</text>
+          <view class="schedule-title-row">
+            <text class="schedule-title {{item.completed ? 'completed-title' : ''}}">{{item.title}}</text>
+            <view class="priority-tag priority-{{item.priority || 'medium'}}">
+              <text class="priority-tag-dot"></text>
+              <text class="priority-tag-text">{{item.priority === 'high' ? '高' : item.priority === 'low' ? '低' : '中'}}</text>
+            </view>
+          </view>
           <view wx:if="{{item.location}}" class="schedule-location">
             <text>📍 {{item.location}}</text>
           </view>
@@ -126,6 +132,19 @@
           <view class="form-group">
             <text class="form-label">地点（可选）</text>
             <textarea class="form-input form-location-input" placeholder="输入地点" value="{{form.location}}" bindinput="inputLocation" auto-height show-confirm-bar="{{false}}" />
+          </view>
+
+          <view class="form-group">
+            <text class="form-label">优先级</text>
+            <view class="priority-group">
+              <view wx:for="{{priorityOptions}}" wx:key="value"
+                    class="priority-option {{form.priority === item.value ? 'active' : ''}}"
+                    data-priority="{{item.value}}"
+                    bindtap="selectPriority">
+                <text class="priority-dot" style="background-color: {{item.color}}"></text>
+                <text class="priority-label">{{item.label}}</text>
+              </view>
+            </view>
           </view>
 
           <view class="form-group">
