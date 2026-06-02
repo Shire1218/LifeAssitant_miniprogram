@@ -1,3 +1,5 @@
+const config = require('./config')
+
 App({
   globalData: {
     themeColor: '#1677ff',
@@ -7,7 +9,20 @@ App({
   },
 
   onLaunch() {
+    this.initCloud()
     this.initStorage()
+  },
+
+  initCloud() {
+    if (wx.cloud) {
+      wx.cloud.init({
+        env: config.cloudEnv,
+        traceUser: true
+      })
+      console.log('云开发初始化成功')
+    } else {
+      console.error('请使用基础库 2.2.3+ 以使用云开发')
+    }
   },
 
   initStorage() {

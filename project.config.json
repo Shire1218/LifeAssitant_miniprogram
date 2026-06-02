@@ -1,8 +1,9 @@
 {
   "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloud/",
   "projectname": "LifeAssitant_miniprogram",
   "description": "生活助手小程序",
-  "appid": "your id",
+  "appid": "wx2acc14cca1d97ecf",
   "setting": {
     "urlCheck": false,
     "es6": true,
@@ -38,12 +39,16 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "3.3.4",
+  "libVersion": "3.16.1",
   "condition": {},
   "simulatorPluginLibVersion": {},
   "packOptions": {
     "ignore": [],
     "include": []
   },
-  "editorSetting": {}
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "srcMiniprogramRoot": "miniprogram/"
 }
