@@ -221,6 +221,19 @@ Page({
     this.setData({ 'form.priority': priority })
   },
 
+  checkTimeConflict(form, editingId) {
+    if (!form.startTime || !form.endTime || !form.date) return null
+    const schedules = storage.get('schedules') || []
+    for (const s of schedules) {
+      if (s.id === editingId) continue
+      if (s.date !== form.date || !s.startTime || !s.endTime) continue
+      if (form.startTime < s.endTime && s.startTime < form.endTime) {
+        return s
+      }
+    }
+    return null
+  },
+
   async saveSchedule() {
     const { form, editingSchedule } = this.data
 
@@ -236,6 +249,17 @@ Page({
 
     if (!form.startTime) {
       showToast('请选择开始时间')
+      return
+    }
+
+    if (form.endTime && form.startTime >= form.endTime) {
+      showToast('开始时间不能晚于结束时间')
+      return
+    }
+
+    const conflict = this.checkTimeConflict(form, editingSchedule ? editingSchedule.id : null)
+    if (conflict) {
+      showToast(`与「${conflict.title}」(${conflict.startTime}-${conflict.endTime}) 时间冲突`)
       return
     }
 

@@ -3,9 +3,9 @@ const config = require('./config')
 App({
   globalData: {
     themeColor: '#1677ff',
-    incomeColor: '#52c41a',
-    expenseColor: '#f5222d',
-    auxiliaryColor: '#faad14'
+    incomeColor: '#00b96b',
+    expenseColor: '#e84749',
+    auxiliaryColor: '#f59e0b'
   },
 
   onLaunch() {
