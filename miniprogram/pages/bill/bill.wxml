@@ -1,8 +1,6 @@
 <view class="page-bg">
   <view class="container">
-    <!-- 汇总卡片 -->
     <view class="summary-card">
-      <view class="summary-card-bg-decor"></view>
       <view class="summary-header flex-between">
         <view class="summary-type-switch">
           <view class="type-btn {{summaryType === 'month' ? 'active' : ''}}" bindtap="switchSummaryType" data-type="month">月</view>
@@ -35,12 +33,10 @@
           <text class="stat-label">总收入</text>
           <text class="stat-value income">{{summaryType === 'month' ? monthTotal.income : yearTotal.income}}</text>
         </view>
-        <view class="stat-divider"></view>
         <view class="stat-item">
           <text class="stat-label">总支出</text>
           <text class="stat-value expense">{{summaryType === 'month' ? monthTotal.expense : yearTotal.expense}}</text>
         </view>
-        <view class="stat-divider"></view>
         <view class="stat-item">
           <text class="stat-label">结余</text>
           <text class="stat-value balance">{{summaryType === 'month' ? monthTotal.balance : yearTotal.balance}}</text>
@@ -48,30 +44,24 @@
       </view>
     </view>
 
-    <!-- 账单列表 -->
     <view class="bill-list">
       <view wx:if="{{groupedBills.length === 0}}" class="empty-state">
-        <view class="empty-icon-wrap">
-          <text class="empty-icon">💰</text>
-        </view>
+        <view class="empty-icon">💰</view>
         <text class="empty-title">暂无账单记录</text>
         <text class="empty-desc">点击右下角 + 开始记账</text>
       </view>
 
       <view wx:for="{{groupedBills}}" wx:key="date" class="bill-group">
         <view class="bill-group-header flex-between">
-          <view class="group-date-wrap">
-            <text class="group-date">{{item.dateText}}</text>
-          </view>
+          <text class="group-date">{{item.dateText}}</text>
           <view class="group-summary flex-row">
             <text class="summary-income">收 {{item.dayIncome}}</text>
-            <text class="summary-divider-dot">·</text>
             <text class="summary-expense">支 {{item.dayExpense}}</text>
           </view>
         </view>
 
         <view wx:for="{{item.items}}" wx:for-item="bill" wx:key="id"
-              class="bill-item {{batchMode ? 'batch-mode' : ''}} {{bill.type === 'expense' ? 'bill-expense' : 'bill-income'}}"
+              class="bill-item {{batchMode ? 'batch-mode' : ''}}"
               bindtap="onBillTap" data-bill="{{bill}}"
               bindlongpress="toggleBatchMode">
           <view wx:if="{{batchMode}}" class="bill-checkbox" catchtap="selectBill" data-id="{{bill.id}}">
@@ -94,13 +84,11 @@
       </view>
     </view>
 
-    <!-- 批量操作栏 -->
     <view wx:if="{{batchMode && selectedTags.length > 0}}" class="batch-bar">
       <view class="batch-btn batch-delete" bindtap="batchDelete">删除选中 ({{selectedTags.length}})</view>
     </view>
   </view>
 
-  <!-- 浮动按钮 -->
   <view class="fab" style="{{fabStyle}}"
     bindtouchstart="onFabTouchStart"
     catchtouchmove="onFabTouchMove"
@@ -108,7 +96,6 @@
     <text class="fab-icon">+</text>
   </view>
 
-  <!-- 新增/编辑弹窗 -->
   <view wx:if="{{showAddModal}}" class="modal-mask" bindtap="closeAddModal">
     <view class="modal-sheet" catchtap="onModalTap">
       <view class="modal-handle"></view>

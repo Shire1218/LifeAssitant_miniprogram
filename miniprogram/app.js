@@ -3,9 +3,9 @@ const config = require('./config')
 App({
   globalData: {
     themeColor: '#1677ff',
-    incomeColor: '#00b96b',
-    expenseColor: '#e84749',
-    auxiliaryColor: '#f59e0b'
+    incomeColor: '#52c41a',
+    expenseColor: '#f5222d',
+    auxiliaryColor: '#faad14'
   },
 
   onLaunch() {
@@ -26,7 +26,7 @@ App({
   },
 
   initStorage() {
-    const keys = ['bills', 'schedules', 'diets', 'notes']
+    const keys = ['bills', 'schedules', 'diets']
     keys.forEach(key => {
       if (!wx.getStorageSync(key)) {
         wx.setStorageSync(key, [])

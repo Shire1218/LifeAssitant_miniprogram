@@ -1,32 +1,12 @@
-/* ========================================
-   账本页面样式
-   ======================================== */
-
-/* ---- 汇总卡片 ---- */
 .summary-card {
-  background: linear-gradient(145deg, #1677ff 0%, #3d8bff 40%, #6aabff 100%);
-  border-radius: 28rpx;
-  padding: 36rpx 32rpx 32rpx;
-  margin-bottom: 28rpx;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 12rpx 40rpx rgba(22, 119, 255, 0.3);
-}
-
-.summary-card-bg-decor {
-  position: absolute;
-  top: -60rpx;
-  right: -40rpx;
-  width: 260rpx;
-  height: 260rpx;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, #1677ff 0%, #4096ff 100%);
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
 }
 
 .summary-header {
   margin-bottom: 24rpx;
-  position: relative;
-  z-index: 1;
 }
 
 .summary-type-switch {
@@ -36,28 +16,24 @@
 }
 
 .type-btn {
-  padding: 10rpx 28rpx;
-  border-radius: 24rpx;
+  padding: 10rpx 24rpx;
+  border-radius: 20rpx;
   background-color: rgba(255, 255, 255, 0.15);
-  font-size: 26rpx;
+  font-size: 28rpx;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.65);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(4rpx);
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.2s;
 }
 
 .type-btn.active {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.35);
   color: #ffffff;
   font-weight: 700;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
 }
 
 .summary-period {
-  margin-bottom: 28rpx;
+  margin-bottom: 20rpx;
   gap: 16rpx;
-  position: relative;
-  z-index: 1;
 }
 
 .period-picker {
@@ -65,7 +41,7 @@
 }
 
 .picker-display {
-  padding: 14rpx 24rpx;
+  padding: 12rpx 24rpx;
   border-radius: 16rpx;
   background-color: rgba(255, 255, 255, 0.12);
   align-items: center;
@@ -73,80 +49,68 @@
 }
 
 .picker-display text {
-  font-size: 28rpx;
+  font-size: 30rpx;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.9);
 }
 
 .picker-arrow {
   font-size: 32rpx;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .batch-toggle {
   padding: 10rpx 24rpx;
-  border-radius: 24rpx;
-  background-color: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(4rpx);
+  border-radius: 20rpx;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .batch-text {
-  font-size: 26rpx;
+  font-size: 28rpx;
   font-weight: 600;
   color: #ffffff;
 }
 
 .summary-stats {
   display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  padding-top: 28rpx;
-  border-top: 1rpx solid rgba(255, 255, 255, 0.18);
-  position: relative;
-  z-index: 1;
+  flex-direction: column;
+  gap: 20rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid rgba(255, 255, 255, 0.2);
 }
 
 .stat-item {
-  flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 12rpx;
-}
-
-.stat-divider {
-  width: 1rpx;
-  background-color: rgba(255, 255, 255, 0.15);
-  margin: 4rpx 0;
+  justify-content: space-between;
 }
 
 .stat-label {
-  font-size: 24rpx;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 28rpx;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
   margin-bottom: 0;
 }
 
 .stat-value {
-  font-size: 36rpx;
+  font-size: 48rpx;
   font-weight: 800;
   color: #ffffff;
-  letter-spacing: -0.5rpx;
 }
 
 .stat-value.income {
-  color: #b8f5d0;
+  color: #b7f5b7;
 }
 
 .stat-value.expense {
-  color: #ffc4c4;
+  color: #ffb3b3;
 }
 
 .stat-value.balance {
   color: #ffffff;
 }
 
-/* ---- 账单列表 ---- */
 .bill-list {
   padding-bottom: 240rpx;
 }
@@ -155,35 +119,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 140rpx 0 120rpx;
-}
-
-.empty-icon-wrap {
-  width: 140rpx;
-  height: 140rpx;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #f0f2f5, #e8eaf0);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 32rpx;
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+  padding: 120rpx 0;
 }
 
 .empty-icon {
-  font-size: 64rpx;
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
 }
 
 .empty-title {
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #4a4a68;
+  font-size: 32rpx;
+  color: #666666;
   margin-bottom: 12rpx;
 }
 
 .empty-desc {
   font-size: 26rpx;
-  color: #8c8ca1;
+  color: #999999;
 }
 
 .bill-group {
@@ -191,82 +143,46 @@
 }
 
 .bill-group-header {
-  padding: 0 8rpx;
+  padding: 0 12rpx;
   margin-bottom: 16rpx;
 }
 
-.group-date-wrap {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 12rpx;
-}
-
 .group-date {
-  font-size: 30rpx;
+  font-size: 32rpx;
   font-weight: 700;
-  color: #1a1a2e;
+  color: #333333;
 }
 
 .group-summary {
-  gap: 12rpx;
-  align-items: center;
+  gap: 24rpx;
 }
 
 .summary-income {
-  font-size: 24rpx;
+  font-size: 28rpx;
   font-weight: 600;
-  color: #00b96b;
-}
-
-.summary-divider-dot {
-  font-size: 20rpx;
-  color: #c8c8d4;
+  color: #52c41a;
 }
 
 .summary-expense {
-  font-size: 24rpx;
+  font-size: 28rpx;
   font-weight: 600;
-  color: #e84749;
+  color: #f5222d;
 }
 
-/* ---- 账单条目 ---- */
 .bill-item {
   display: flex;
   flex-direction: row;
   align-items: center;
   background-color: #ffffff;
   border-radius: 20rpx;
-  padding: 28rpx 28rpx;
+  padding: 32rpx 28rpx;
   margin-bottom: 12rpx;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.03);
-  position: relative;
-  overflow: hidden;
-}
-
-.bill-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 6rpx;
-  border-radius: 0 6rpx 6rpx 0;
-  transition: background-color 0.2s;
-}
-
-.bill-expense::before {
-  background: linear-gradient(180deg, #e84749, #ff6b6b);
-}
-
-.bill-income::before {
-  background: linear-gradient(180deg, #00b96b, #34d399);
+  transition: all 0.2s;
 }
 
 .bill-item:active {
   transform: scale(0.98);
-  background-color: #fafafa;
+  background-color: #f8f8f8;
 }
 
 .bill-checkbox {
@@ -277,15 +193,14 @@
   width: 44rpx;
   height: 44rpx;
   border: 3rpx solid #d9d9d9;
-  border-radius: 12rpx;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50%;
+  transition: all 0.2s;
 }
 
 .checkbox-inner.checked {
-  background: linear-gradient(135deg, #1677ff, #4f9cff);
+  background-color: #1677ff;
   border-color: #1677ff;
   position: relative;
-  box-shadow: 0 2rpx 8rpx rgba(22, 119, 255, 0.3);
 }
 
 .checkbox-inner.checked::after {
@@ -306,7 +221,7 @@
 }
 
 .bill-top {
-  margin-bottom: 6rpx;
+  margin-bottom: 8rpx;
 }
 
 .bill-tag-wrap {
@@ -315,42 +230,39 @@
 }
 
 .bill-tag {
-  padding: 8rpx 20rpx;
-  border-radius: 12rpx;
-  font-size: 26rpx;
+  padding: 10rpx 24rpx;
+  border-radius: 10rpx;
+  font-size: 28rpx;
   font-weight: 600;
-  letter-spacing: 0.5rpx;
 }
 
 .bill-tag.tag-expense {
-  background-color: rgba(232, 71, 73, 0.08);
-  color: #e84749;
+  background-color: rgba(245, 34, 45, 0.1);
+  color: #f5222d;
 }
 
 .bill-tag.tag-income {
-  background-color: rgba(0, 185, 107, 0.08);
-  color: #00b96b;
+  background-color: rgba(82, 196, 26, 0.1);
+  color: #52c41a;
 }
 
 .bill-amount {
-  font-size: 38rpx;
+  font-size: 40rpx;
   font-weight: 800;
-  letter-spacing: -0.5rpx;
 }
 
 .bill-amount.amount-expense {
-  color: #e84749;
+  color: #f5222d;
 }
 
 .bill-amount.amount-income {
-  color: #00b96b;
+  color: #52c41a;
 }
 
 .bill-note {
-  font-size: 26rpx;
-  font-weight: 400;
-  color: #8c8ca1;
-  margin-top: 4rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #999999;
 }
 
 .flex-1 {
@@ -358,35 +270,32 @@
   min-width: 0;
 }
 
-/* ---- 浮动按钮 ---- */
 .fab {
   position: fixed;
-  width: 112rpx;
-  height: 112rpx;
-  background: linear-gradient(145deg, #1677ff 0%, #4f9cff 100%);
+  width: 120rpx;
+  height: 120rpx;
+  background: linear-gradient(135deg, #1677ff 0%, #4096ff 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 12rpx 36rpx rgba(22, 119, 255, 0.4);
+  box-shadow: 0 12rpx 32rpx rgba(22, 119, 255, 0.4);
   z-index: 100;
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition: box-shadow 0.2s;
 }
 
 .fab:active {
   box-shadow: 0 8rpx 24rpx rgba(22, 119, 255, 0.5);
-  transform: scale(0.92);
 }
 
 .fab-icon {
-  font-size: 56rpx;
+  font-size: 64rpx;
   color: #ffffff;
   font-weight: 700;
   line-height: 1;
   pointer-events: none;
 }
 
-/* ---- 批量操作栏 ---- */
 .batch-bar {
   position: fixed;
   bottom: 0;
@@ -395,33 +304,31 @@
   padding: 24rpx 32rpx;
   padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
   background-color: #ffffff;
-  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.06);
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.06);
   z-index: 200;
 }
 
 .batch-btn {
   width: 100%;
-  padding: 26rpx 0;
-  border-radius: 20rpx;
+  padding: 24rpx 0;
+  border-radius: 16rpx;
   text-align: center;
   font-size: 30rpx;
   font-weight: 600;
 }
 
 .batch-delete {
-  background: linear-gradient(135deg, #e84749 0%, #ff6b6b 100%);
+  background-color: #f5222d;
   color: #ffffff;
-  box-shadow: 0 6rpx 20rpx rgba(232, 71, 73, 0.25);
 }
 
-/* ---- 弹窗 ---- */
 .modal-mask {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
   display: flex;
   align-items: flex-end;
@@ -430,7 +337,7 @@
 .modal-sheet {
   width: 100%;
   background-color: #ffffff;
-  border-radius: 36rpx 36rpx 0 0;
+  border-radius: 32rpx 32rpx 0 0;
   max-height: 85vh;
   height: 85vh;
   display: flex;
@@ -438,22 +345,22 @@
 }
 
 .modal-handle {
-  width: 56rpx;
+  width: 64rpx;
   height: 8rpx;
-  background-color: #e8e8f0;
+  background-color: #e8e8e8;
   border-radius: 4rpx;
-  margin: 20rpx auto 0;
+  margin: 16rpx auto 0;
 }
 
 .modal-title-bar {
-  padding: 28rpx 32rpx 24rpx;
-  border-bottom: 1rpx solid #f0f0f5;
+  padding: 24rpx 32rpx;
+  border-bottom: 1rpx solid #f5f5f5;
 }
 
 .modal-title {
-  font-size: 36rpx;
+  font-size: 38rpx;
   font-weight: 700;
-  color: #1a1a2e;
+  color: #333333;
 }
 
 .modal-close-btn {
@@ -463,17 +370,12 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: #f5f6fa;
-  transition: background-color 0.2s;
-}
-
-.modal-close-btn:active {
-  background-color: #e8e8f0;
+  background-color: #f5f5f5;
 }
 
 .modal-close-btn text {
-  font-size: 26rpx;
-  color: #8c8ca1;
+  font-size: 28rpx;
+  color: #999999;
 }
 
 .modal-scroll {
@@ -484,8 +386,8 @@
 
 .type-switcher {
   display: flex;
-  background-color: #f5f6fa;
-  border-radius: 20rpx;
+  background-color: #f5f5f5;
+  border-radius: 16rpx;
   padding: 6rpx;
   margin-bottom: 32rpx;
 }
@@ -493,26 +395,26 @@
 .switch-btn {
   flex: 1;
   text-align: center;
-  padding: 22rpx 0;
-  border-radius: 16rpx;
-  font-size: 30rpx;
+  padding: 24rpx 0;
+  border-radius: 12rpx;
+  font-size: 32rpx;
   font-weight: 600;
-  color: #8c8ca1;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #666666;
+  transition: all 0.25s;
 }
 
 .switch-btn.active {
   background-color: #ffffff;
-  font-weight: 700;
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  font-weight: 600;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.06);
 }
 
 .switch-btn.active.expense {
-  color: #e84749;
+  color: #f5222d;
 }
 
 .switch-btn.active.income {
-  color: #00b96b;
+  color: #52c41a;
 }
 
 .tag-grid {
@@ -524,45 +426,43 @@
 
 .tag-item {
   padding: 16rpx 32rpx;
-  border-radius: 16rpx;
-  background-color: #f5f6fa;
-  font-size: 28rpx;
+  border-radius: 12rpx;
+  background-color: #f5f5f5;
+  font-size: 30rpx;
   font-weight: 600;
-  color: #4a4a68;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 2rpx solid transparent;
+  color: #666666;
+  transition: all 0.2s;
 }
 
 .tag-item.active {
-  background-color: rgba(22, 119, 255, 0.08);
+  background-color: rgba(22, 119, 255, 0.1);
   color: #1677ff;
-  font-weight: 700;
-  border-color: rgba(22, 119, 255, 0.2);
+  font-weight: 600;
 }
 
 .amount-section {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 36rpx 0;
-  border-bottom: 2rpx solid #f0f0f5;
+  padding: 40rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
   margin-bottom: 32rpx;
   min-height: 80rpx;
 }
 
 .amount-symbol {
-  font-size: 52rpx;
-  color: #1a1a2e;
-  font-weight: 800;
+  font-size: 56rpx;
+  color: #333333;
+  font-weight: 700;
   line-height: 1;
   flex-shrink: 0;
 }
 
 .amount-input {
   flex: 1;
-  font-size: 60rpx;
+  font-size: 64rpx;
   font-weight: 800;
-  color: #1a1a2e;
+  color: #333333;
   margin-left: 12rpx;
   height: 80rpx;
   line-height: 80rpx;
@@ -577,76 +477,60 @@
 }
 
 .form-label {
-  font-size: 26rpx;
+  font-size: 28rpx;
   font-weight: 600;
-  color: #8c8ca1;
+  color: #999999;
   margin-bottom: 12rpx;
   display: block;
-  letter-spacing: 0.5rpx;
 }
 
 .form-picker {
-  background-color: #f5f6fa;
-  border-radius: 20rpx;
+  background-color: #f5f5f5;
+  border-radius: 16rpx;
   padding: 28rpx 32rpx;
-  border: 2rpx solid transparent;
-  transition: all 0.2s;
-}
-
-.form-picker:active {
-  border-color: rgba(22, 119, 255, 0.2);
-  background-color: #fafafe;
 }
 
 .form-picker .placeholder {
-  color: #c8c8d4;
+  color: #cccccc;
 }
 
 .picker-arrow {
   font-size: 32rpx;
-  color: #c8c8d4;
+  color: #cccccc;
 }
 
 .form-textarea {
-  background-color: #f5f6fa;
-  border-radius: 20rpx;
+  background-color: #f5f5f5;
+  border-radius: 16rpx;
   padding: 28rpx 32rpx;
-  font-size: 28rpx;
+  font-size: 30rpx;
   font-weight: 500;
   min-height: 120rpx;
   width: 100%;
   box-sizing: border-box;
-  border: 2rpx solid transparent;
-  transition: all 0.2s;
-}
-
-.form-textarea:focus {
-  border-color: rgba(22, 119, 255, 0.2);
-  background-color: #fafafe;
 }
 
 .modal-footer {
   padding: 24rpx 32rpx;
-  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
-  border-top: 1rpx solid #f0f0f5;
+  padding-bottom: calc(48rpx + env(safe-area-inset-bottom));
+  border-top: 1rpx solid #f5f5f5;
   background-color: #ffffff;
   flex-shrink: 0;
 }
 
 .submit-btn {
   width: 100%;
-  padding: 30rpx 0;
-  background: linear-gradient(135deg, #1677ff 0%, #4f9cff 100%);
+  padding: 32rpx 0;
+  background: linear-gradient(135deg, #1677ff 0%, #4096ff 100%);
   color: #ffffff;
-  border-radius: 20rpx;
+  border-radius: 16rpx;
   text-align: center;
-  font-size: 32rpx;
+  font-size: 34rpx;
   font-weight: 700;
-  box-shadow: 0 8rpx 24rpx rgba(22, 119, 255, 0.3);
-  transition: all 0.2s;
+  margin-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
 }
 
 .submit-btn:active {
-  opacity: 0.88;
-  transform: scale(0.98);
+  opacity: 0.85;
 }

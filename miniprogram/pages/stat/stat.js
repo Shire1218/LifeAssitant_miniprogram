@@ -2,7 +2,7 @@ const storage = require('../../utils/storage')
 const { formatMoney } = require('../../utils/time')
 const { groupBy, sumBy } = require('../../utils/common')
 
-const CHART_COLORS = ['#1677ff', '#00b96b', '#f59e0b', '#e84749', '#722ed1', '#13c2c2', '#eb2f96', '#fa8c16', '#a0d911', '#2f54eb']
+const CHART_COLORS = ['#1677ff', '#52c41a', '#faad14', '#f5222d', '#722ed1', '#13c2c2', '#eb2f96', '#fa8c16', '#a0d911', '#2f54eb']
 
 function getYearList() {
   const currentYear = new Date().getFullYear()

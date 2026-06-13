@@ -1,18 +1,15 @@
 <view class="page-bg">
   <view class="container">
-    <!-- 时间范围切换 -->
     <view class="range-switcher">
       <view class="switch-btn {{timeRange === 'year' ? 'active' : ''}}" bindtap="switchRange" data-range="year">年</view>
       <view class="switch-btn {{timeRange === 'month' ? 'active' : ''}}" bindtap="switchRange" data-range="month">月</view>
     </view>
 
-    <!-- 收支类型切换 -->
     <view class="type-switcher">
       <view class="type-btn {{statType === 'expense' ? 'active' : ''}}" bindtap="switchType" data-type="expense">总支出</view>
       <view class="type-btn {{statType === 'income' ? 'active' : ''}}" bindtap="switchType" data-type="income">总收入</view>
     </view>
 
-    <!-- 时间选择器 -->
     <view class="period-row flex-row flex-between">
       <view class="period-picker">
         <picker mode="selector" range="{{yearList}}" value="{{selectedYearIndex}}" bindchange="changeYear">
@@ -32,46 +29,25 @@
       </view>
     </view>
 
-    <!-- 总额卡片 -->
     <view class="total-card">
-      <view class="total-card-decor total-card-decor-1"></view>
-      <view class="total-card-decor total-card-decor-2"></view>
       <text class="total-label">{{statType === 'expense' ? '总支出' : '总收入'}}</text>
-      <view class="total-value-row">
-        <text class="total-currency">¥</text>
-        <text class="total-value">{{totalAmount}}</text>
-      </view>
+      <text class="total-value">{{totalAmount}}</text>
     </view>
 
-    <!-- 图表卡片 -->
     <view class="chart-card">
-      <view class="chart-card-title">
-        <text class="chart-title-text">分类占比</text>
-      </view>
       <canvas type="2d" id="pieCanvas" class="pie-canvas" wx:if="{{chartData.length > 0}}"></canvas>
       <view wx:else class="empty-chart">
-        <view class="empty-chart-icon-wrap">
-          <text class="empty-chart-icon">📊</text>
-        </view>
         <text class="empty-chart-text">{{statType === 'expense' ? '暂无支出数据' : '暂无收入数据'}}</text>
       </view>
     </view>
 
-    <!-- 图例列表 -->
     <view class="legend-card" wx:if="{{legendList.length > 0}}">
-      <view class="legend-header">
-        <text class="legend-title">分类明细</text>
-      </view>
       <view class="legend-item" wx:for="{{legendList}}" wx:key="name">
-        <view class="legend-left">
-          <view class="legend-color" style="background-color: {{item.color}};"></view>
-          <text class="legend-name">{{item.name}}</text>
-        </view>
+        <view class="legend-color" style="background-color: {{item.color}};"></view>
+        <text class="legend-name">{{item.name}}</text>
         <view class="legend-right">
           <text class="legend-amount">{{item.value}}</text>
-          <view class="legend-percent-badge" style="background-color: {{item.color}}15;">
-            <text class="legend-percent" style="color: {{item.color}};">{{item.percent}}</text>
-          </view>
+          <text class="legend-percent">{{item.percent}}</text>
         </view>
       </view>
     </view>

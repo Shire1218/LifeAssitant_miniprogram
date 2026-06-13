@@ -5,10 +5,8 @@
   right: 0;
   display: flex;
   flex-direction: row;
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20rpx);
-  -webkit-backdrop-filter: blur(20rpx);
-  box-shadow: 0 -2rpx 24rpx rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  box-shadow: 0 -1rpx 20rpx rgba(0, 0, 0, 0.06);
   z-index: 999;
   padding-bottom: env(safe-area-inset-bottom);
   box-sizing: border-box;
@@ -22,7 +20,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
   -webkit-tap-highlight-color: transparent;
   padding: 20rpx 0;
   min-height: 100rpx;
@@ -36,28 +34,19 @@
   transform: translateX(-50%);
   width: 0;
   height: 4rpx;
-  background: linear-gradient(90deg, #1677ff, #4f9cff);
+  background-color: #227CFF;
   border-radius: 0 0 4rpx 4rpx;
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.tab-bar-item.active::after {
-  width: 40rpx;
+  transition: width 0.2s ease;
 }
 
 .tab-bar-text {
-  font-size: 30rpx;
-  color: #8c8ca1;
+  font-size: 32rpx;
+  color: #999999;
   line-height: 1;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
 }
 
 .tab-bar-item.active .tab-bar-text {
-  color: #1677ff;
-  font-weight: 700;
-  font-size: 32rpx;
-}
-
-.tab-bar-item:active {
-  opacity: 0.7;
+  color: #227CFF;
+  font-weight: bold;
 }

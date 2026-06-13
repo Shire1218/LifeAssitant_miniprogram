@@ -1,6 +1,5 @@
 <view class="page-bg">
   <view class="container">
-    <!-- 日历卡片 -->
     <view class="calendar-card">
       <view class="calendar-nav-bar flex-between">
         <view class="nav-btn" bindtap="prevMonth">
@@ -12,13 +11,13 @@
         </view>
       </view>
       <view class="calendar-week-header flex-row">
-        <text class="week-day week-end">日</text>
+        <text class="week-day">日</text>
         <text class="week-day">一</text>
         <text class="week-day">二</text>
         <text class="week-day">三</text>
         <text class="week-day">四</text>
         <text class="week-day">五</text>
-        <text class="week-day week-end">六</text>
+        <text class="week-day">六</text>
       </view>
       <view class="calendar-grid">
         <view wx:for="{{calendarDays}}" wx:key="idx"
@@ -30,7 +29,6 @@
       </view>
     </view>
 
-    <!-- 日程列表区域 -->
     <view class="schedule-section">
       <view class="section-header flex-between">
         <view class="section-date">
@@ -43,15 +41,13 @@
       </view>
 
       <view wx:if="{{daySchedules.length === 0}}" class="empty-schedule">
-        <view class="empty-schedule-icon-wrap">
-          <text class="empty-schedule-icon">📅</text>
-        </view>
+        <view class="empty-schedule-icon">📅</view>
         <text class="empty-schedule-title">暂无日程安排</text>
         <text class="empty-schedule-desc">点击「+ 新增」添加今日日程</text>
       </view>
 
       <view wx:for="{{daySchedules}}" wx:key="id"
-            class="schedule-card {{item.completed ? 'completed' : ''}} priority-accent-{{item.priority || 'medium'}}">
+            class="schedule-card {{item.completed ? 'completed' : ''}}">
         <view class="schedule-left">
           <view class="time-badge">
             <text class="time-start">{{item.startTime}}</text>
@@ -82,7 +78,6 @@
     </view>
   </view>
 
-  <!-- 新增/编辑弹窗 -->
   <view wx:if="{{showAddModal}}" class="modal-mask" bindtap="closeAddModal">
     <view class="modal-sheet" catchtap="onModalTap" catchtouchmove="preventMove">
       <view class="modal-handle"></view>
