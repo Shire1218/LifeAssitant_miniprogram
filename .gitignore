@@ -1,5 +1,19 @@
-# 配置文件
+# 微信开发者工具配置文件（包含 appid 等个人信息）
 project.config.json
+project.private.config.json
+
+# 微信开发者工具生成
+miniprogram_npm/
+.wxpackage/
+
+# IDE 和编辑器
+.hbuilderx/
+.idea/
+.vscode/
+
+# 系统文件
+.DS_Store
+Thumbs.db
 
 # Logs
 logs
