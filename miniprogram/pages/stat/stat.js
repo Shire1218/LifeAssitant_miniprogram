@@ -36,10 +36,12 @@ Page({
     legendList: []
   },
 
-  onLoad() {
+  onLoad(options) {
     const now = new Date()
-    const year = now.getFullYear()
-    const month = now.getMonth() + 1
+    const year = Number(options.year) || now.getFullYear()
+    const month = Number(options.month) || now.getMonth() + 1
+    const range = options.range || 'month'
+    const type = options.type || 'expense'
     const yearList = getYearList()
     const yearIndex = yearList.indexOf(year)
     this.setData({
@@ -47,16 +49,15 @@ Page({
       selectedMonth: month,
       selectedYearIndex: yearIndex >= 0 ? yearIndex : 0,
       yearList: yearList,
-      monthList: getMonthList()
+      monthList: getMonthList(),
+      timeRange: range,
+      statType: type
     })
     this.loadBills()
   },
 
   onShow() {
     this.loadBills()
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setData({ active: 1 })
-    }
   },
 
   loadBills() {
@@ -180,7 +181,7 @@ Page({
       const height = res[0].height
       const centerX = width / 2
       const centerY = height / 2
-      const radius = Math.min(width, height) / 2 - 10
+      const radius = Math.min(width, height) / 2 - 35
 
       let startAngle = -Math.PI / 2
       chartData.forEach(item => {

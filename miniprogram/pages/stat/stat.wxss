@@ -100,7 +100,7 @@
 .chart-card {
   background-color: #ffffff;
   border-radius: 24rpx;
-  padding: 32rpx;
+  padding: 40rpx;
   margin-bottom: 24rpx;
   display: flex;
   align-items: center;

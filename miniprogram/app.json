@@ -26,10 +26,6 @@
         "text": "账本"
       },
       {
-        "pagePath": "pages/stat/stat",
-        "text": "统计"
-      },
-      {
         "pagePath": "pages/schedule/schedule",
         "text": "日程"
       },

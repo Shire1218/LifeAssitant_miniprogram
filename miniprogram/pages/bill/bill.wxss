@@ -111,6 +111,26 @@
   color: #ffffff;
 }
 
+.stat-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-entry-text {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-entry-arrow {
+  font-size: 36rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+
 .bill-list {
   padding-bottom: 240rpx;
 }
@@ -289,14 +309,13 @@
 }
 
 .fab-icon {
-  font-size: 110rpx;
+  font-size: 90rpx;
   color: #ffffff;
   font-weight: 900;
-  line-height: 1;
+  line-height: 120rpx;
   pointer-events: none;
   text-align: center;
   align-self: center; /* 强制自身垂直居中 */
-  transform: translateY(-15rpx);
 }
 
 .batch-bar {

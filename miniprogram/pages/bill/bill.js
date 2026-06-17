@@ -440,5 +440,12 @@ Page({
       return
     }
     this.openAddModal()
+  },
+
+  goToStat() {
+    const { selectedYear, selectedMonth, summaryType } = this.data
+    wx.navigateTo({
+      url: `/pages/stat/stat?year=${selectedYear}&month=${selectedMonth}&range=${summaryType}&type=expense`
+    })
   }
 })

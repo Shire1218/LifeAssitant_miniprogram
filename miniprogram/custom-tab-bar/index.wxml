@@ -7,6 +7,7 @@
     data-index="{{index}}"
     bindtap="switchTab"
   >
+    <image class="tab-bar-icon" src="{{active === index ? item.selectedIconPath : item.iconPath}}"></image>
     <text class="tab-bar-text">{{item.text}}</text>
   </view>
 </view>
