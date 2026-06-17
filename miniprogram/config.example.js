@@ -1,3 +1,3 @@
 module.exports = {
-  cloudEnv: 'your-cloud-env-id'
+  cloudEnv: 'your-cloud-id'
 }

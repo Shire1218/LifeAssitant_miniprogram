@@ -128,7 +128,7 @@
         <view class="form-section">
           <view class="form-row">
             <text class="form-label">日期</text>
-            <picker mode="date" value="{{form.date}}" start="2020-01-01" end="2099-12-31" bindchange="changeDate">
+            <picker mode="date" value="{{form.date}}" start="2000-01-01" end="2099-12-31" bindchange="changeDate">
               <view class="form-picker flex-between">
                 <text class="{{form.date ? '' : 'placeholder'}}">{{form.date || '选择日期'}}</text>
                 <text class="picker-arrow">›</text>
