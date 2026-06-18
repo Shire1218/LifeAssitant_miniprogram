@@ -478,7 +478,7 @@
   border-radius: 16rpx;
   padding: 28rpx 32rpx;
   font-size: 30rpx;
-  width: 100%;
+  width: 90%;
   box-sizing: border-box;
   min-height: 100rpx;
 }
