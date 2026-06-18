@@ -51,15 +51,7 @@ Page({
     selectedTags: [],
     batchMode: false,
     customTagName: '',
-    showCustomTagInput: false,
-    fabTop: 0,
-    fabRight: 40,
-    fabStyle: '',
-    isDragging: false,
-    touchStartX: 0,
-    touchStartY: 0,
-    fabStartTop: 0,
-    fabStartRight: 0
+    showCustomTagInput: false
   },
 
   onLoad() {
@@ -68,24 +60,13 @@ Page({
     const month = now.getMonth() + 1
     const yearList = getYearList()
     const yearIndex = yearList.indexOf(year)
-    const systemInfo = wx.getSystemInfoSync()
-    const windowHeight = systemInfo.windowHeight
-    const safeBottom = systemInfo.safeArea ? (systemInfo.windowHeight - systemInfo.safeArea.bottom) : 0
-    const tabBarHeight = 60
-    const fabSize = 60
-    const minTop = windowHeight * 0.5
-    const maxTop = windowHeight - fabSize - safeBottom - tabBarHeight - 20
-    const defaultTop = Math.max(minTop, Math.min(maxTop, windowHeight * 0.65))
 
     this.setData({
       selectedYear: year,
       selectedMonth: month,
       selectedYearIndex: yearIndex >= 0 ? yearIndex : 0,
       yearList: yearList,
-      monthList: getMonthList(),
-      fabTop: defaultTop,
-      fabRight: 40,
-      fabStyle: `top:${defaultTop}px;right:40px;`
+      monthList: getMonthList()
     })
     this.loadBills()
   },
@@ -417,56 +398,6 @@ Page({
     showToast(`已删除 ${this.data.selectedTags.length} 条账单`, 'success')
     this.setData({ batchMode: false, selectedTags: [] })
     this.loadBills()
-  },
-
-  onFabTouchStart(e) {
-    const touch = e.touches[0]
-    this.setData({
-      isDragging: false,
-      touchStartX: touch.clientX,
-      touchStartY: touch.clientY,
-      fabStartTop: this.data.fabTop,
-      fabStartRight: this.data.fabRight
-    })
-  },
-
-  onFabTouchMove(e) {
-    const touch = e.touches[0]
-    const deltaX = Math.abs(touch.clientX - this.data.touchStartX)
-    const deltaY = Math.abs(touch.clientY - this.data.touchStartY)
-
-    if (deltaX > 5 || deltaY > 5) {
-      this.setData({ isDragging: true })
-    }
-
-    const systemInfo = wx.getSystemInfoSync()
-    const windowHeight = systemInfo.windowHeight
-    const windowWidth = systemInfo.windowWidth
-    const safeBottom = systemInfo.safeArea ? (systemInfo.windowHeight - systemInfo.safeArea.bottom) : 0
-    const tabBarHeight = 60
-    const fabSize = 60
-    const minTop = windowHeight * 0.5
-    const maxTop = windowHeight - fabSize - safeBottom - tabBarHeight - 20
-    const minRight = windowWidth * 0.5
-
-    let newTop = this.data.fabStartTop + (touch.clientY - this.data.touchStartY)
-    let newRight = this.data.fabStartRight - (touch.clientX - this.data.touchStartX)
-
-    newTop = Math.max(minTop, Math.min(maxTop, newTop))
-    newRight = Math.max(0, Math.min(minRight, newRight))
-
-    this.setData({
-      fabTop: newTop,
-      fabRight: newRight,
-      fabStyle: `top:${newTop}px;right:${newRight}px;`
-    })
-  },
-
-  onFabTouchEnd(e) {
-    if (this.data.isDragging) {
-      return
-    }
-    this.openAddModal()
   },
 
   goToStat() {

@@ -93,11 +93,8 @@
     </view>
   </view>
 
-  <view class="fab" style="{{fabStyle}}"
-    bindtouchstart="onFabTouchStart"
-    catchtouchmove="onFabTouchMove"
-    bindtouchend="onFabTouchEnd">
-    <text class="fab-icon">+</text>
+  <view class="fab" bindtap="openAddModal">
+    <image class="fab-icon" src="/static/button/new_add/bill_add_btn.png" mode="aspectFit"></image>
   </view>
 
   <view wx:if="{{showAddModal}}" class="modal-mask" bindtap="closeAddModal">
