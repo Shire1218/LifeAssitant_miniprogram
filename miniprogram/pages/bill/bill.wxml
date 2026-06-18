@@ -124,9 +124,13 @@
           </view>
         </view>
 
+        <view wx:if="{{showCustomTagInput}}" class="custom-tag-input">
+          <input class="custom-tag-field" placeholder="请输入类型名称" value="{{customTagName}}" bindinput="inputCustomTag" maxlength="10" />
+        </view>
+
         <view class="amount-section">
           <text class="amount-symbol">¥</text>
-          <input class="amount-input" type="digit" placeholder="0.00" value="{{form.amount}}" bindinput="inputAmount" />
+          <input class="amount-input" type="digit" placeholder="0.00" value="{{form.amount}}" bindinput="inputAmount" maxlength="10" />
         </view>
 
         <view class="form-section">

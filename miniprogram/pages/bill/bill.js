@@ -50,6 +50,8 @@ Page({
     },
     selectedTags: [],
     batchMode: false,
+    customTagName: '',
+    showCustomTagInput: false,
     fabTop: 0,
     fabRight: 40,
     fabStyle: '',
@@ -235,11 +237,31 @@ Page({
 
   selectTag(e) {
     const tag = e.currentTarget.dataset.tag
-    this.setData({ 'form.tag': tag })
+    if (tag === '其他') {
+      this.setData({
+        'form.tag': tag,
+        showCustomTagInput: true,
+        customTagName: ''
+      })
+    } else {
+      this.setData({
+        'form.tag': tag,
+        showCustomTagInput: false
+      })
+    }
+  },
+
+  inputCustomTag(e) {
+    this.setData({ customTagName: e.detail.value })
   },
 
   inputAmount(e) {
-    this.setData({ 'form.amount': e.detail.value })
+    const value = e.detail.value
+    // 允许：空字符串、纯数字、最多一个小数点、小数点后最多两位
+    if (value !== '' && !/^\d*\.?\d{0,2}$/.test(value)) {
+      return
+    }
+    this.setData({ 'form.amount': value })
   },
 
   inputNote(e) {
@@ -296,6 +318,11 @@ Page({
       return
     }
 
+    // 如果选择了"其他"，使用自定义标签名称
+    const finalTag = this.data.showCustomTagInput
+      ? (this.data.customTagName.trim() || '其他')
+      : form.tag
+
     let bills = storage.get('bills') || []
 
     if (editingBill) {
@@ -304,7 +331,7 @@ Page({
           return {
             ...b,
             type: form.type,
-            tag: form.tag,
+            tag: finalTag,
             amount: Number(form.amount),
             note: form.note,
             date: form.date,
@@ -318,7 +345,7 @@ Page({
       const newBill = {
         id: generateId(),
         type: form.type,
-        tag: form.tag,
+        tag: finalTag,
         amount: Number(form.amount),
         note: form.note,
         date: form.date,
